@@ -83,21 +83,6 @@ input[type="password"] {
     margin-top: 10px; 
 
 }
-/* .login-button1 {
-    background-color: #AA336A;
-    color: #fff;
-    /* padding: 10px 20px; */
-    /* padding:5px 10px ;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display:inline-block ;
-    margin-top: 10px; 
-    margin-right: 98px; 
-
-
-} */ */
 .login-button {
     background-color: #AA336A;
     color: #fff;
@@ -107,6 +92,8 @@ input[type="password"] {
     cursor: pointer;
     transition: background-color 0.3s;
 } */
+
+
 .login-button:hover {
     background-color: #ff69b4;
 }
@@ -147,3 +134,4 @@ input[type="password"] {
     </div>
 </body>
 </html>
+

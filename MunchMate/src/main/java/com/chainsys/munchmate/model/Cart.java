@@ -12,6 +12,8 @@ public class Cart {
 	public int foodId;
 	public double totalPrice;
 	public String foodSession;
+	
+	
 	public double overAllPrice;
 
 

@@ -5,6 +5,8 @@ public class Order {
 	public int hotelId;
 	public String foodName;
 	public String address;
+	
+	
 	public double totalAmount;
 	public String paymentMode;
 	public String orderDelivery;

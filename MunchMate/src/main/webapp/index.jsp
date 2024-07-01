@@ -296,6 +296,8 @@ h3 {
 				</div>
 				<div class="card">
 					<img src="Picture/idiyapam4.jpg" alt="Ediyapam">
+			
+			
 					<div class="food-title">
 						<h1>Ediyapam</h1>
 					</div>

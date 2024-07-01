@@ -7,9 +7,19 @@ public class Hotel {
 	public String hotelName;
 	public String hotelLocation;
 	public String hotelPhoneNumber;
+	
+	
 	public String hotelEmail;
 	public String hotelPassword;
 	public byte[] hotelImage;
+	public String status;
+
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 
 
@@ -75,5 +85,8 @@ public class Hotel {
 		this.hotelEmail = hotelEmail;
 		this.hotelPassword = hotelPassword;
 		this.hotelImage = hotelImage;
+	}
+	public Hotel() {
+		// TODO Auto-generated constructor stub
 	}
 }

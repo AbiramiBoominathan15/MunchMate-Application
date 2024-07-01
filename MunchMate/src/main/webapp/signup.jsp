@@ -142,7 +142,7 @@
     </form>
 
     <!-- Business Registration Form -->
-    <form id="businessRegistrationForm" action="" method="post" style="display: none;">
+    <form id="businessRegistrationForm" action="/hotelregister" method="post" style="display: none; "enctype="multipart/form-data">
         <label for="businessName">Hotel Name:</label>
         <input type="text" id="businessName" name="hotelName" placeholder="Enter your business name" required><br>
 
@@ -150,13 +150,13 @@
         <input type="file" id="hotelImage" name="image" accept="image/*"><br>
 
         <label for="businessPhoneNumber">Phone Number:</label>
-        <input type="text" id="businessPhoneNumber" name="businessPhoneNumber" placeholder="Enter your phone number" pattern="[0-9]{10}" required><br>
+        <input type="text" id="businessPhoneNumber" name="phonenumber" placeholder="Enter your phone number" pattern="[0-9]{10}" required><br>
 
         <label for="businessCity">City:</label>
         <input type="text" id="businessCity" name="city" placeholder="Enter your city" required><br>
 
         <label for="businessPassword">Password:</label>
-        <input type="password" id="businessPassword" name="password" placeholder="Enter your password" pattern="[A-Za-z0-9]{6,10}" required><br>
+        <input type="password" id="businessPassword" name="password" placeholder="Enter your password"  required><br>
 
         <label for="businessEmail">Email:</label>
         <input type="text" id="businessEmail" name="email" placeholder="Enter your email" required><br>
@@ -185,6 +185,8 @@
         document.querySelectorAll(".tab")[1].classList.add("active");
     }
 </script>
+
+
 
 </body>
 </html>

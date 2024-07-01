@@ -11,6 +11,8 @@ public class Food {
 	public String foodCategories;
 	public byte[] foodImage;
 	public int foodQuantity;
+	
+	
 	public String foodSession;
 	public String availability;
 
