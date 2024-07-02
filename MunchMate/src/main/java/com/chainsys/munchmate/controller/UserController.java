@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.chainsys.munchmate.dao.HotelDAO;
 import com.chainsys.munchmate.dao.UserDAO;
+import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
 
@@ -38,8 +39,6 @@ public class UserController {
 	 * }
 	 */
 	@PostMapping("/register")
-	// public String saveUser(@RequestParam("name") form name
-	// RequestParam("name") String name form html naming
 	public String saveUser(@RequestParam("name") String name, @RequestParam("password") String password,
 			@RequestParam("phonenumber") String phonenumber, @RequestParam("city") String city,
 			@RequestParam("email") String email) throws ClassNotFoundException, SQLException {
@@ -116,6 +115,21 @@ public class UserController {
 		return "hotelDetails.jsp";
 	}
 
+	/*
+	 * @PostMapping("/login") public String login(@RequestParam("email") String
+	 * email, @RequestParam("password") String password, HttpSession session) {
+	 * 
+	 * if (email.equals("abiramiboominathan15@gmail.com") &&
+	 * password.equals("abirami@15")) { session.setAttribute("email", email); return
+	 * "redirect:/adminDashboard.jsp"; } else if (userDao.login(email, password)) {
+	 * session.setAttribute("email", email);
+	 * System.out.println(userDao.getUserID(email)); session.setAttribute("userid",
+	 * userDao.getUserID(email));
+	 * 
+	 * return "redirect:/menuDisplay.jsp"; } else { session.setAttribute("message",
+	 * "Invalid credentials. Please try again."); return "redirect:/loginPage.jsp";
+	 * } } 134 157
+	 */ 
 	@PostMapping("/login")
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password,
 			HttpSession session) {
@@ -125,26 +139,93 @@ public class UserController {
 			return "redirect:/adminDashboard.jsp";
 		} else if (userDao.login(email, password)) {
 			session.setAttribute("email", email);
-			System.out.println(userDao.getUserID(email));
 			session.setAttribute("userid", userDao.getUserID(email));
-
 			return "redirect:/menuDisplay.jsp";
-		} 
-		else {
-			session.setAttribute("message", "Invalid credentials. Please try again.");
-			return "redirect:/loginPage.jsp";
+		} else {
+			Hotel hotel = userDao.getHotelByEmail(email);
+			if (hotel != null && hotel.getHotelPassword().equals(password)
+					&& hotel.getStatus().equalsIgnoreCase("yes")) {
+				session.setAttribute("email", email);
+				session.setAttribute("hotelId", hotel.getHotelId());
+	            session.setAttribute("hotelName", hotel.getHotelName()); 
+				return "redirect:/hotelmenu.jsp";
+			} else {
+				session.setAttribute("message", "Your hotel is not yet approved.");
+				return "redirect:/loginPage.jsp";
+			}
 		}
 	}
-	
-    @PostMapping("/updateApproval")
-    public String updateApproval(@RequestParam("hotelId") int hotelId, @RequestParam("approved") String approved) {
-    	Hotel hotel=new Hotel();
-			hotel.setHotelId(hotelId);
-		    hotel.setStatus(approved);
-		    userDao.updateHotel(hotel);
 
-        return "redirect:/hotels";
+	@PostMapping("/updateApproval")
+	public String updateApproval(@RequestParam("hotelId") int hotelId, @RequestParam("approved") String approved) {
+		Hotel hotel = new Hotel();
+		hotel.setHotelId(hotelId);
+		hotel.setStatus(approved);
+		userDao.updateHotel(hotel);
+
+		return "redirect:/hotels";
+	}
+	@PostMapping("/foodregister")
+	public String saveFood(@RequestParam("hotelid") int hotelId, 
+			@RequestParam("hotelname") String hotelName, 
+
+			@RequestParam("foodName") String foodName, 
+			@RequestParam("foodCategory") String foodCategory, 
+			@RequestParam("foodSession") String foodSession, 
+	
+			
+			@RequestParam("foodPrice") int foodPrice, 
+			@RequestParam("foodQuantity") int foodQuantity, 
+
+			
+			
+			@RequestParam("image") MultipartFile imageFile)
+			throws ClassNotFoundException, SQLException, IOException {
+		System.out.println("in register handle");
+
+		if (!imageFile.isEmpty()) {
+			byte[] imageBytes = imageFile.getBytes();
+
+			
+			Food food = new Food();
+			food.setHotelId(hotelId);
+			food.setHotelName(hotelName);
+			food.setFoodName(foodName);
+			food.setFoodCategories(foodCategory);
+			food.setFoodSession(foodSession);
+			food.setFoodPrice(foodPrice);
+			food.setFoodQuantity(foodQuantity);
+			food.setFoodImage(imageBytes);
+			System.out.println(food.getHotelName()+food.getFoodName()+food.getFoodCategories()+food.getFoodSession());
+			
+			
+			userDao.insertFood(food);
+
+			return "redirect:/foodList";
+		} else {
+			return "redirect:/error";
+		}
+	}
+    @GetMapping("/foodList")
+    public String showFoodList(Model model,HttpSession session) 
+    {
+    	int hotelId=(int) session.getAttribute("hotelId");
+        List<Food> foodList = userDao.getFoodsByHotelId(hotelId);
+        model.addAttribute("foodList", foodList);
+		System.out.println(foodList);
+
+		/*
+		 * return "menu.jsp";
+		 * 
+		 */   
+		return "food";
+		}
+    @GetMapping("/food")
+    public String showFoodList(Model model) {
+        List<Food> food = userDao.getAllFoods();
+        model.addAttribute("food", food);
+        return "food.jsp"; 
     }
 
-
 }
+

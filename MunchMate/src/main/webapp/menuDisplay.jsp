@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page
-	import="java.sql.*, java.io.*, java.util.Base64, com.chainsys.munchmate.dao.UserImpl
-,  com.chainsys.munchmate.model
-.Food"%>
+	import="java.sql.*, java.io.*, java.util.Base64, com.DAO.HungerImplements, com.model.Food"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
-<%@ page import=" com.chainsys.munchmate.model.*"%>
-<%@ page import="com.chainsys.munchmate.model.Hotel"%>
-<%@ page import="com.chainsys.munchmate.model.Food"%>
+<%@ page import="com.model.*"%>
+<%@ page import="com.model.Hotel"%>
+<%@ page import="com.model.Food"%>
 
 <!DOCTYPE html>
 <html>
@@ -195,17 +193,17 @@ h3 {
 .button-container input[type="submit"]:hover {
 	background-color: #e03e00;
 }
+.imgg{
+    width: 36%;
+    display: inline-block;
+    vertical-align: middle;
 
-.imgg {
-	width: 36%;
-	display: inline-block;
-	vertical-align: middle;
+}
+h1{
+display: inline-block;
+    vertical-align: middle;
 }
 
-h1 {
-	display: inline-block;
-	vertical-align: middle;
-}
 </style>
 <script>
 function checkAvailability(searchValue, hour) {
@@ -237,11 +235,9 @@ function addToCartClicked(foodId, price) {
 <body>
 	<div class="nav">
 		<div class="logo">
-			<img class="imgg" src="Picture/logomuchmate1.png">
-
-			<h1>
-				Much<b>Mate</b>
-			</h1>
+						<img class="imgg" src="Picture/logomuchmate1.png">
+		
+			<h1>Much<b>Mate</b></h1>
 		</div>
 		<ul>
 			<li><a class="active" href="#">Home</a></li>
@@ -250,17 +246,13 @@ function addToCartClicked(foodId, price) {
 		</ul>
 		<div class="button-container">
 			<form action="foodSearch.jsp">
-				<input type="text" name="foodtitle" id="Search"
-					placeholder="Search "> <input type="submit"
-					class="search-button" value="search" name="action">
+				<input type="text" name="foodtitle" id="Search" placeholder="Search ">
+				<input type="submit" class="search-button" value="search" name="action">
 			</form>
 		</div>
 		<form action="AddCart" method="get">
-			<input type="hidden" name="action" value="viewCart">
-			<button id="btn">
-				<img alt="not working" src="Picture/cart.png" width="40px"
-					height="40px">
-			</button>
+			<input type="hidden"  name="action" value="viewCart">
+			<button id="btn"><img alt="not working" src="Picture/cart.png" width="40px" height="40px"></button>
 		</form>
 	</div>
 
@@ -276,59 +268,50 @@ function addToCartClicked(foodId, price) {
 			<img src="data:image/jpeg;base64,<%=base64Image%>" alt="Food Image">
 			<div class="card-details">
 				<h3><%=food.getHotelName()%></h3>
-				<h3><%=food.getHotelId()%></h3>
-				<input type="hidden" value="<%=food.getHotelId()%>" name="hotelid">
+				<h3><%=food.getHotelId() %></h3>
+ 			<input type="hidden" value="<%=food.getHotelId()%>" name="hotelid">
 				<h3><%=food.getFoodCategories()%></h3>
 				<h3><%=food.getFoodName()%></h3>
-				<p class="price">
-					Price:
-					<%=food.getFoodPrice()%></p>
-				<p
-					class="<%=food.getAvailability().equalsIgnoreCase("Available") ? "available" : "unavailable"%>">
+				<p class="price">Price: <%=food.getFoodPrice()%></p>
+				<p class="<%=food.getAvailability().equalsIgnoreCase("Available") ? "available" : "unavailable"%>">
 					<%=food.getAvailability()%>
 				</p>
-				<form action="AddCart" method="post">
-
-					<div class="quantity-selector">
-						<input type="number" id="quantity_<%=food.getFoodId()%>"
-							name="quantity" min="1" value="1"> <input type="hidden"
-							name="action" value="addToCart"> <input type="hidden"
-							name="foodId" value="<%=food.getFoodId()%>"> <input
-							type="hidden" name="hotelid" value="<%=food.getHotelId()%>">
-						<input type="hidden" name="quantity"
-							value="<%=food.getFoodQuantity()%>"> <input type="hidden"
-							name="foodName" value="<%=food.getFoodName()%>"> <input
-							type="hidden" name="price" value="<%=food.getFoodPrice()%>">
-						<input type="hidden" name="foodSession"
-							value="<%=food.getFoodsession()%>"> <input type="hidden"
-							name="base64Image" value="<%=base64Image%>">
-						<button type="submit"
-							onclick="addToCartClicked(<%=food.getFoodId()%>, <%=food.getFoodPrice()%>)">Add
-							to Cart</button>
+								<form action="AddCart" method="post">
+				
+				<div class="quantity-selector">
+					<input type="number" id="quantity_<%=food.getFoodId()%>"
+						name="quantity" min="1" value="1">
+				<input type="hidden"  name="action" value="addToCart">
+				<input type="hidden" name="foodId" value="<%=food.getFoodId()%>">
+				<input type="hidden" name="hotelid" value="<%=food.getHotelId()%>">
+				<input type="hidden" name="quantity" value="<%=food.getFoodQuantity()%>">
+				<input type="hidden" name="foodName" value="<%=food.getFoodName()%>">
+				<input type="hidden" name="price" value="<%=food.getFoodPrice()%>">
+				<input type="hidden" name="foodSession" value="<%=food.getFoodsession()%>">
+				<input type="hidden" name="base64Image" value="<%=base64Image%>">
+					<button type="submit" onclick="addToCartClicked(<%=food.getFoodId()%>, <%=food.getFoodPrice()%>)">Add to Cart</button>
 				</form>
+				</div>
+				
 			</div>
-
 		</div>
-	</div>
-	<%
-	}
-	} catch (SQLException | ClassNotFoundException ex) {
-	ex.printStackTrace();
-	}
-	%>
+		<%
+			}
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		%>
 	</div>
 
 	<div class="footer">
-		<!-- 		<button onclick="window.location.href='AddCart?action=viewCart'">View Cart</button>
- -->
-		<form action="AddCart" method="get">
+<!-- 		<button onclick="window.location.href='AddCart?action=viewCart'">View Cart</button>
+ -->	 		
+ <form action="AddCart" method="get">
 			<input type="hidden" name="action" value="viewCart">
-
-			<button type="submit">ViewCart</button>
-		</form>
-		<p>
-			Total Price: $<span id="overallPrice">0.00</span>
-		</p>
+ 
+ <button type="submit">ViewCart</button>
+ </form>
+		<p>Total Price: $<span id="overallPrice">0.00</span></p>
 	</div>
 </body>
 </html>

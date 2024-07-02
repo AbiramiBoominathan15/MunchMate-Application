@@ -90,6 +90,9 @@ public class Food {
 		this.foodSession = foodSession;
 		this.availability = availability;
 	}
+	public Food() {
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String toString() {
 		return "Food [foodId=" + foodId + ", hotelId=" + hotelId + ", hotelName=" + hotelName + ", foodName=" + foodName

@@ -16,8 +16,6 @@ public class UserId implements RowMapper<Integer> {
 	        User user = new User();
 	        user.setUserId(rs.getInt("userid"));
 	        return  user.getUserId();
-	
-	    
 	    
 	    }
 

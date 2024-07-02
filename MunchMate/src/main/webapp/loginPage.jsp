@@ -19,9 +19,6 @@ body {
     background-position: center;
 
 }
-
-
-
 .button-container {
     text-align: center;
     margin-top: 20px;
@@ -43,7 +40,7 @@ body {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
-    /* margin-left: 650px; 
+     margin-left: 650px; 
     margin: 0 auto;
 }
 

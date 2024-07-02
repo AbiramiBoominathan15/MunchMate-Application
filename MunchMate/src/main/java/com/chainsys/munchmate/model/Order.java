@@ -1,6 +1,8 @@
 package com.chainsys.munchmate.model;
 
 public class Order {
+	
+	
 	public int orderId;
 	public int hotelId;
 	public String foodName;

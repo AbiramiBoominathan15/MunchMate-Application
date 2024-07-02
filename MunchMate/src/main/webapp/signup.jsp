@@ -114,7 +114,7 @@
 <body>
 
 <div class="container">
-    <h1>Registration - Food Restaurant</h1>
+    <h1>Registration</h1>
     <div class="tabs">
         <div class="tab active" onclick="showUserRegistration()">User</div>
         <div class="tab" onclick="showBusinessRegistration()">Business</div>

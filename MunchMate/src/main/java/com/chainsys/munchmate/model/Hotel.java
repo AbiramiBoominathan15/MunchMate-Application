@@ -47,6 +47,8 @@ public class Hotel {
 	public void setHotelPhoneNumber(String hotelPhoneNumber) {
 		this.hotelPhoneNumber = hotelPhoneNumber;
 	}
+	
+	
 	public String getHotelEmail() {
 		return hotelEmail;
 	}

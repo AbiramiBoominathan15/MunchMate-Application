@@ -1,5 +1,6 @@
 package com.chainsys.munchmate.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Repository;
 import com.chainsys.munchmate.mapper.HotelMapper;
 import com.chainsys.munchmate.mapper.UserId;
 import com.chainsys.munchmate.mapper.UserMapper;
+import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
+import com.chainsys.munchmate.mapper.FoodMapper;
+
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 
@@ -67,7 +71,10 @@ public class UserImpl implements UserDAO {
         }
     }   
 	public List<Hotel> getAllHotels() {
-        String query = "SELECT * FROM hotel";
+		/*
+		 * selct*;
+		 */       
+		String query = "SELECT name, location ,phonenumber ,email FROM hotel";
         List<Hotel> hotel = jdbcTemplate.query(query, new HotelMapper());
         return hotel;
 
@@ -89,11 +96,39 @@ public class UserImpl implements UserDAO {
         Object[] params = {hotel.getStatus(), hotel.getHotelId()};
         jdbcTemplate.update(updateQuery, params);
     }
-@Override
-public Hotel getHotelByEmail(String email) {
-	// TODO Auto-generated method stub
-	return null;
-}
+   @Override
+   public Hotel getHotelByEmail(String email) {
+	    String query = "SELECT hotelid, name, location, image, phonenumber, email, password, status FROM hotel WHERE email = ?";
 
+       try {
+           return jdbcTemplate.queryForObject(query, new Object[]{email}, new HotelMapper());
+       } catch (IncorrectResultSizeDataAccessException ex) {
+           return null;
+       }
+   }
+   
+
+
+	@Override
+	public void insertFood(Food food) {
+		String save = "insert into food(hotelid,hotelname,image,name,price,quantity,catagories,mealtime)values(?,?,?,?,?,?,?,?)";
+		Object[] params = {food.getHotelId(),food.getHotelName(),food.getFoodImage(),food.getFoodName(),food.getFoodPrice(),food.getFoodQuantity(),food.getFoodCategories(),food.getFoodSession()};
+		int noOfRows = jdbcTemplate.update(save, params);
+		System.out.println("in DAO -save");
+	}
+	public List<Food> getFoodsByHotelId(int hotelId) {
+		System.out.println("hotelId - " +hotelId);
+	    String query = "SELECT hotelid,hotelname ,image,name ,price,quantity,catagories,mealtime FROM food WHERE hotelid = ?";
+	    try {
+	        return jdbcTemplate.query(query, new FoodMapper(), hotelId);
+	    } catch (EmptyResultDataAccessException ex) {
+	        return Collections.emptyList(); 
+	    }
+
+}
+    public List<Food> getAllFoods() {
+        String query = "SELECT * FROM food";
+        return jdbcTemplate.query(query, new FoodMapper());
+    }
 
 }
