@@ -2,7 +2,9 @@ package com.chainsys.munchmate.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.chainsys.munchmate.dao.UserDAO;
+import com.chainsys.munchmate.model.Cart;
 import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
@@ -135,15 +138,20 @@ public class UserController {
 				session.setAttribute("email", email);
 				session.setAttribute("hotelId", hotel.getHotelId());
 	            session.setAttribute("hotelName", hotel.getHotelName()); 
+				
+				 return "redirect:/hotelmenu.jsp";
+				 		
 				/*
-				 * return "redirect:/hotelmenu.jsp";
-				 */		
-	            return "redirect:/hotelDashboard.jsp";
-	            } 
+				 * return "redirect:/hotelDashboard.jsp";
+				 */	            } 
 			else {
 				session.setAttribute("message", "Your hotel is not yet approved.");
 				return "redirect:/loginPage.jsp";
 			}
+			
+			
+			
+			
 		}
 	}
 
@@ -159,17 +167,11 @@ public class UserController {
 	@PostMapping("/foodregister")
 	public String saveFood(@RequestParam("hotelid") int hotelId, 
 			@RequestParam("hotelname") String hotelName, 
-
 			@RequestParam("foodName") String foodName, 
 			@RequestParam("foodCategory") String foodCategory, 
 			@RequestParam("foodSession") String foodSession, 
-	
-			
 			@RequestParam("foodPrice") int foodPrice, 
 			@RequestParam("foodQuantity") int foodQuantity, 
-
-			
-			
 			@RequestParam("image") MultipartFile imageFile)
 			throws ClassNotFoundException, SQLException, IOException {
 		System.out.println("in register handle");
@@ -215,6 +217,7 @@ public class UserController {
         model.addAttribute("foods", foods);
         return "food.jsp"; 
     }
+
     @GetMapping("/foods")
     public String showFoodListt(Model model) {
         List<Food> foods = userDao.getAllFoods();
@@ -230,6 +233,70 @@ public class UserController {
             return "redirect:/error";
         }
     }
+    @GetMapping("/addToCart")
+    public String addToCart(@RequestParam("userid") int userId,
+            @RequestParam("foodid") int foodid,
+
+                            @RequestParam("foodname") String foodname,
+                            @RequestParam("quantity") int quantity,
+                            @RequestParam("price") int price,
+                			@RequestParam("base64Image") MultipartFile imageFile,
+
+                            @RequestParam("mealTime") String foodSession,
+                            Model model,
+                            HttpSession session) throws IOException {
+		if (!imageFile.isEmpty()) {
+			byte[] imageBytes = imageFile.getBytes();			
+
+        double totalPrice = price * quantity;
+
+        Cart cartItem = new Cart();
+        cartItem.setUserId(userId);
+        cartItem.setFoodId(foodid);
+        cartItem.setFoodName(foodname);
+
+        cartItem.setQuantity(quantity);
+
+        cartItem.setTotalPrice(totalPrice);
+        cartItem.setFoodSession(foodSession);
+        
+        userDao.addToCart(cartItem);
+		}
+        return "/foods";
+    
+    }
+
+	/*
+	 * @GetMapping("/cartlist") public String showViewCart(Model model,HttpSession
+	 * session) { int userId=(int) session.getAttribute("userid"); List<Cart> cart =
+	 * userDao.viewCart(userId); model.addAttribute("cart", cart); return
+	 * "viewCart.jsp"; }
+	 */    @GetMapping("/cartlist")
+    public String showViewCart(Model model, HttpSession session) {
+        int userId = (int) session.getAttribute("userid");
+        List<Cart> cart = userDao.viewCart(userId);
+
+        int hour = LocalTime.now().getHour();
+        String mealTime;
+        if (hour >= 6 && hour < 12) {
+            mealTime = "Breakfast";
+        } else if (hour >= 12 && hour < 17) {
+            mealTime = "Lunch";
+        } else {
+            mealTime = "Dinner";
+        }
+
+        List<Cart> filteredCartItems = cart.stream()
+                                          .filter(item -> item.getFoodSession().equalsIgnoreCase(mealTime))
+                                          .collect(Collectors.toList());
+
+        model.addAttribute("cart", filteredCartItems); 
+        return "viewCart.jsp"; 
+    }
+
 
 }
+
+
+
 

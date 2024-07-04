@@ -56,6 +56,8 @@ public class Order {
 	public String getOrderDelivery() {
 		return orderDelivery;
 	}
+	
+	
 	public void setOrderDelivery(String orderDelivery) {
 		this.orderDelivery = orderDelivery;
 	}

@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.chainsys.munchmate.mapper.HotelMapper;
 import com.chainsys.munchmate.mapper.UserId;
 import com.chainsys.munchmate.mapper.UserMapper;
+import com.chainsys.munchmate.model.Cart;
 import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
+import com.chainsys.munchmate.mapper.CartMapper;
 import com.chainsys.munchmate.mapper.FoodMapper;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 @Repository
@@ -18,6 +20,7 @@ public class UserImpl implements UserDAO {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	UserMapper mapper;
+	CartMapper cart;
 	@Override
 	public void insertRegistration(User user) {
 		String save = "insert into user (name,phone_number,password,city, mail_id)values(?,?,?,?,?)";
@@ -129,5 +132,24 @@ public class UserImpl implements UserDAO {
 	    String deleteQuery = "UPDATE hotel SET action = 1 WHERE hotelid = ?";
 	    jdbcTemplate.update(deleteQuery, hotelId);
 	}
+	public void addToCart(Cart cartItem) {
+		String save = "insert into cart(userid,foodid,foodname,quantity,totalprice,mealtime)values(?,?,?,?,?,?)";
+		Object[] params = {cartItem.getUserId(),cartItem.getFoodId(),cartItem.getFoodName(),cartItem.getQuantity(),cartItem.getTotalPrice(),cartItem.getFoodSession()};
+		int noOfRows = jdbcTemplate.update(save, params);
+		System.out.println("in DAO -save");
 
+		
+		
+	}
+	public List<Cart> viewCart(int userId) {
+		System.out.println("userId - " +userId);
+	    String query = "SELECT userid,foodname,quantity,totalprice,mealtime FROM cart WHERE userid = ?";
+	    try {
+	        return jdbcTemplate.query(query, new CartMapper(), userId);
+	    } catch (EmptyResultDataAccessException ex) {
+	        return Collections.emptyList(); 
+	    }
+
+
+	}
 }

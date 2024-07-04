@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.chainsys.munchmate.model.Cart;
 import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
@@ -30,11 +31,17 @@ public interface UserDAO {
 	public void updateHotel(Hotel hotel);
 
 	public Hotel getHotelByEmail(String email);
+	
+	
 	public void insertFood(Food food) ;
 	public List<Food> getFoodsByHotelId(int hotelId);
 	public void deleteHotel(int hotelId) ;
 
     public List<Food> getAllFoods();
+	public void addToCart(Cart cartItem);
+
+	public List<Cart> viewCart(int userId);
+
 
 
 }

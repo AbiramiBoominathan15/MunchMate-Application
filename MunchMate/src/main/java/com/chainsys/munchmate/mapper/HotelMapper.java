@@ -12,6 +12,9 @@ import com.chainsys.munchmate.model.Hotel;
 
 public class HotelMapper implements RowMapper<Hotel> {
 	public Hotel mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		
+		
 		Hotel hotel = new Hotel();
 
 		int hotelId = rs.getInt(1);

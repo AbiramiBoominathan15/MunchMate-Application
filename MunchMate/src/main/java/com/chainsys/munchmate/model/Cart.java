@@ -107,4 +107,11 @@ public class Cart {
 		this.foodSession = foodSession;
 		this.overAllPrice = overAllPrice;
 	}
+	public Cart() {
+		// TODO Auto-generated constructor stub
+	}
+	public void setMealTime(String foodSession2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

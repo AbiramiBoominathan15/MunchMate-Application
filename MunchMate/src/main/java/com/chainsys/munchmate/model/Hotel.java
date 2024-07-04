@@ -23,6 +23,8 @@ public class Hotel {
 	
 
 
+	
+	
 	public int getHotelId() {
 		return hotelId;
 	}
