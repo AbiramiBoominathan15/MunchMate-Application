@@ -1,13 +1,10 @@
 package com.chainsys.munchmate.dao;
-
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import com.chainsys.munchmate.mapper.HotelMapper;
 import com.chainsys.munchmate.mapper.UserId;
 import com.chainsys.munchmate.mapper.UserMapper;
@@ -15,10 +12,7 @@ import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
 import com.chainsys.munchmate.mapper.FoodMapper;
-
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-
-
 @Repository
 public class UserImpl implements UserDAO {
 	@Autowired
@@ -29,20 +23,20 @@ public class UserImpl implements UserDAO {
 		String save = "insert into user (name,phone_number,password,city, mail_id)values(?,?,?,?,?)";
 		Object[] params = { user.getName(), user.getPhoneNumber(), user.getPassword(), user.getCity(),
 				user.getMailId() };
+		@SuppressWarnings("unused")
 		int noOfRows = jdbcTemplate.update(save, params);
-		System.out.println("in DAO -save");
 	}
 	public List<User> getAllUsers(){
 	    String query = "SELECT userid, name, phone_number, city, mail_id FROM user WHERE status = 0";
         List<User> users = jdbcTemplate.query(query, new UserMapper());
         return users;
     }
-
 	@Override
 	public void hotelRegistration(Hotel hotel) {
-		String save = "insert into hotel(name,location,image,phonenumber,email,password,status)values(?,?,?,?,?,?,?)";
+		String save = "insert into hotel(name,location,image,phonenumber,email,password,status, action)values(?,?,?,?,?,?,?,?)";
 		Object[] params = { hotel.getHotelName(), hotel.getHotelLocation(),hotel.getHotelImage(), hotel.getHotelPhoneNumber(),
-				hotel.getHotelEmail(), hotel.getHotelPassword() ,hotel.getStatus()};
+				hotel.getHotelEmail(), hotel.getHotelPassword() ,hotel.getStatus(),0};
+		@SuppressWarnings("unused")
 		int noOfRows = jdbcTemplate.update(save, params);
 		System.out.println("in DAO -save");
 	}
@@ -51,6 +45,7 @@ public class UserImpl implements UserDAO {
 		String sql = "SELECT name FROM user WHERE mail_id = ? AND password = ?";
 		Object[] params = { mailId, password };
 		try {
+			@SuppressWarnings("deprecation")
 			String name = jdbcTemplate.queryForObject(sql, params, String.class);
 			return name != null;
 		} catch (EmptyResultDataAccessException e) {
@@ -74,15 +69,18 @@ public class UserImpl implements UserDAO {
 		/*
 		 * selct*;
 		 */       
-		String query = "SELECT name, location ,phonenumber ,email FROM hotel";
-        List<Hotel> hotel = jdbcTemplate.query(query, new HotelMapper());
+		String query="select * from hotel where status=0";
+		/*
+		 * String query = "SELECT name, location ,phonenumber ,email FROM hotel";
+		 */       
+		List<Hotel> hotel = jdbcTemplate.query(query, new HotelMapper());
         return hotel;
 
 
 }
-    @Override
+	@Override
     public Hotel getHotelById(int hotelId) {
-        String query = "SELECT * FROM hotel WHERE hotelid = ?";
+        String query = "SELECT hotelid,name,location,image,phonenumber,email FROM hotel WHERE hotelid = ?";
         try {
             return jdbcTemplate.queryForObject(query, new Object[]{hotelId}, new HotelMapper());
         } catch (Exception e) {
@@ -106,9 +104,6 @@ public class UserImpl implements UserDAO {
            return null;
        }
    }
-   
-
-
 	@Override
 	public void insertFood(Food food) {
 		String save = "insert into food(hotelid,hotelname,image,name,price,quantity,catagories,mealtime)values(?,?,?,?,?,?,?,?)";
@@ -118,7 +113,7 @@ public class UserImpl implements UserDAO {
 	}
 	public List<Food> getFoodsByHotelId(int hotelId) {
 		System.out.println("hotelId - " +hotelId);
-	    String query = "SELECT hotelid,hotelname ,image,name ,price,quantity,catagories,mealtime FROM food WHERE hotelid = ?";
+	    String query = "SELECT foodid,hotelid,hotelname ,image,name ,price,quantity,catagories,mealtime FROM food WHERE hotelid = ?";
 	    try {
 	        return jdbcTemplate.query(query, new FoodMapper(), hotelId);
 	    } catch (EmptyResultDataAccessException ex) {
@@ -127,8 +122,12 @@ public class UserImpl implements UserDAO {
 
 }
     public List<Food> getAllFoods() {
-        String query = "SELECT * FROM food";
+        String query = "SELECT foodid,hotelid,hotelname,image,name,price,quantity,catagories,mealtime FROM food";
         return jdbcTemplate.query(query, new FoodMapper());
     }
+	public void deleteHotel(int hotelId) {
+	    String deleteQuery = "UPDATE hotel SET action = 1 WHERE hotelid = ?";
+	    jdbcTemplate.update(deleteQuery, hotelId);
+	}
 
 }

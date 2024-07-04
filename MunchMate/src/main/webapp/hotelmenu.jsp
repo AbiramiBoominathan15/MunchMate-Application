@@ -55,6 +55,8 @@
             box-sizing: border-box;
         }
 
+
+
         .form-group select {
             width: 96%; 
         }

@@ -39,6 +39,8 @@ public class Hotel {
 		return hotelLocation;
 	}
 	public void setHotelLocation(String hotelLocation) {
+	
+		
 		this.hotelLocation = hotelLocation;
 	}
 	public String getHotelPhoneNumber() {

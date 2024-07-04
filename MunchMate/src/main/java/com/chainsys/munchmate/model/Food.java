@@ -2,6 +2,8 @@ package com.chainsys.munchmate.model;
 
 import java.util.Arrays;
 
+
+
 public class Food {
 	public int foodId;
 	public int hotelId;
@@ -11,6 +13,9 @@ public class Food {
 	public String foodCategories;
 	public byte[] foodImage;
 	public int foodQuantity;
+	
+	
+	
 	
 	
 	public String foodSession;

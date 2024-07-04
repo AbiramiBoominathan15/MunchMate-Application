@@ -2,6 +2,8 @@ package com.chainsys.munchmate.model;
 
 import java.util.Arrays;
 
+
+
 public class Cart {
 	public String foodName;
     private byte[]foodImage; 
@@ -36,6 +38,9 @@ public class Cart {
 		this.quantity = quantity;
 	}
 	public int getHotelId() {
+	
+		
+		
 		return hotelId;
 	}
 	public void setHotelId(int hotelId) {

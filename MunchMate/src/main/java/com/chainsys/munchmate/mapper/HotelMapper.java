@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.chainsys.munchmate.model.Hotel;
-import com.chainsys.munchmate.model.User;
+
+
 
 public class HotelMapper implements RowMapper<Hotel> {
 	public Hotel mapRow(ResultSet rs, int rowNum) throws SQLException {

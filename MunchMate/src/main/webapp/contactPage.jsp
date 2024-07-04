@@ -12,10 +12,13 @@
     box-sizing: border-box;
 }
 
+
+
 body {
     font-family: Arial, sans-serif;
     background-color: #ffeae0;
     margin: 0;
+   
     padding: 0;
 }
 

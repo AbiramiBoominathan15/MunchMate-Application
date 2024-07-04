@@ -39,6 +39,9 @@ public class Order {
 		this.address = address;
 	}
 	public double getTotalAmount() {
+		
+		
+		
 		return totalAmount;
 	}
 	public void setTotalAmount(double totalAmount) {

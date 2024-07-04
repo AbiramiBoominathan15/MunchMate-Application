@@ -36,19 +36,14 @@ CREATE TABLE hotel (
         quantity int,
     catagories varchar(200),
     mealtime varchar(200));
-
-
-
-
-
         select * from food;
         drop table food;
     create table  orders(
     orderid int primary key auto_increment,
         hotelid INT,
         userid int,
-    foreign key(hotelid)references Hotels(hotelid),
-    FOREIGN KEY (userid) REFERENCES User(userid),
+    foreign key(hotelid)references hotel(hotelid),
+    FOREIGN KEY (userid) REFERENCES user(userid),
 foodname varchar(200),
 address text,
 totalamount int ,

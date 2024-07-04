@@ -32,6 +32,9 @@
             <% List<Food> foodList = (List<Food>) request.getAttribute("foodList");
                if (foodList != null && !foodList.isEmpty()) {
                    for (Food food : foodList) { %>
+         
+         
+         
             <tr>
                 <td><%= food.getHotelName() %></td>
                 <td><%= food.getFoodName() %></td>

@@ -32,6 +32,7 @@ public interface UserDAO {
 	public Hotel getHotelByEmail(String email);
 	public void insertFood(Food food) ;
 	public List<Food> getFoodsByHotelId(int hotelId);
+	public void deleteHotel(int hotelId) ;
 
     public List<Food> getAllFoods();
 

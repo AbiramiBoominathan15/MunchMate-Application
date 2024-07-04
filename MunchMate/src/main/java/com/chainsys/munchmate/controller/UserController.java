@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.chainsys.munchmate.dao.HotelDAO;
 import com.chainsys.munchmate.dao.UserDAO;
 import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -27,22 +25,16 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 	@Autowired
 	UserDAO userDao;
-	HotelDAO hotelDAO;
 
 	@RequestMapping("/home")
 	public static String home() {
 		return "index.jsp";
 	}
 
-	/*
-	 * @RequestMapping("/save") public static String save() { return "success.jsp";
-	 * }
-	 */
 	@PostMapping("/register")
 	public String saveUser(@RequestParam("name") String name, @RequestParam("password") String password,
 			@RequestParam("phonenumber") String phonenumber, @RequestParam("city") String city,
 			@RequestParam("email") String email) throws ClassNotFoundException, SQLException {
-		System.out.println("in register handle");
 		User user = new User();
 		user.setName(name);
 		user.setPassword(password);
@@ -60,15 +52,15 @@ public class UserController {
 	public String saveHotel(@RequestParam("hotelName") String name, @RequestParam("image") MultipartFile imageFile,
 			@RequestParam("phonenumber") String phonenumber, @RequestParam("city") String city,
 			@RequestParam("password") String password, @RequestParam("email") String email)
-			throws ClassNotFoundException, SQLException, IOException {
+			throws  IOException {
 		System.out.println("in register handle");
 
 		if (!imageFile.isEmpty()) {
+			@SuppressWarnings("unused")
 			byte[] imageBytes = imageFile.getBytes();
 
 			Hotel hotel = new Hotel();
 			hotel.setHotelName(name);
-			hotel.setHotelImage(imageBytes);
 			hotel.setHotelPhoneNumber(phonenumber);
 			hotel.setHotelLocation(city);
 			hotel.setHotelPassword(password);
@@ -78,21 +70,16 @@ public class UserController {
 					+ hotel.getHotelLocation() + hotel.getHotelPassword() + hotel.getHotelEmail());
 			userDao.hotelRegistration(hotel);
 
-			return "redirect:/hotels";
-		} else {
+			/*
+			 * return "redirect:/hotels";
+			 */		
+		return "redirect:loginPage.jsp";
+	}
+		else {
 			return "redirect:/error";
 		}
 	}
-
-	/*
-	 * @PostMapping("/login") public String login(@RequestParam("email") String
-	 * email, @RequestParam("password") String password, Model model, HttpSession
-	 * session) { boolean isValidUser = userDao.login(email, password); if
-	 * (isValidUser) { session.setAttribute("email", email); return
-	 * "redirect:/menuDisplay.jsp"; } else { session.setAttribute("message",
-	 * "Invalid credentials. Please try again."); return "redirect:/loginPage.jsp";
-	 * } }
-	 */ @GetMapping("/listofusers")
+	 @GetMapping("/listofusers")
 	public String listOfUsers(Model model) {
 		List<User> users = userDao.getAllUsers();
 		model.addAttribute("users", users);
@@ -140,16 +127,20 @@ public class UserController {
 		} else if (userDao.login(email, password)) {
 			session.setAttribute("email", email);
 			session.setAttribute("userid", userDao.getUserID(email));
-			return "redirect:/menuDisplay.jsp";
+			return "redirect:/foods";
 		} else {
 			Hotel hotel = userDao.getHotelByEmail(email);
 			if (hotel != null && hotel.getHotelPassword().equals(password)
-					&& hotel.getStatus().equalsIgnoreCase("yes")) {
+					&& hotel.getStatus().equalsIgnoreCase("approved")) {
 				session.setAttribute("email", email);
 				session.setAttribute("hotelId", hotel.getHotelId());
 	            session.setAttribute("hotelName", hotel.getHotelName()); 
-				return "redirect:/hotelmenu.jsp";
-			} else {
+				/*
+				 * return "redirect:/hotelmenu.jsp";
+				 */		
+	            return "redirect:/hotelDashboard.jsp";
+	            } 
+			else {
 				session.setAttribute("message", "Your hotel is not yet approved.");
 				return "redirect:/loginPage.jsp";
 			}
@@ -184,9 +175,7 @@ public class UserController {
 		System.out.println("in register handle");
 
 		if (!imageFile.isEmpty()) {
-			byte[] imageBytes = imageFile.getBytes();
-
-			
+			byte[] imageBytes = imageFile.getBytes();			
 			Food food = new Food();
 			food.setHotelId(hotelId);
 			food.setHotelName(hotelName);
@@ -222,9 +211,24 @@ public class UserController {
 		}
     @GetMapping("/food")
     public String showFoodList(Model model) {
-        List<Food> food = userDao.getAllFoods();
-        model.addAttribute("food", food);
+        List<Food> foods = userDao.getAllFoods();
+        model.addAttribute("foods", foods);
         return "food.jsp"; 
+    }
+    @GetMapping("/foods")
+    public String showFoodListt(Model model) {
+        List<Food> foods = userDao.getAllFoods();
+        model.addAttribute("foods", foods);
+        return "addToCart.jsp"; 
+    }
+    @PostMapping("/deleteHotel")
+    public String deleteHotel(@RequestParam("hotelId") int hotelId) {
+        try {
+            userDao.deleteHotel(hotelId); 
+            return "redirect:/hotels";
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
     }
 
 }

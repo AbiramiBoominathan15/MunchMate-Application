@@ -10,8 +10,8 @@
 body {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
+/*     display: flex;
+ */    justify-content: center;
     align-items: center;
     height: 100vh;
     background-image: url("https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg");
@@ -31,7 +31,7 @@ body {
 .login-background {
     background-size: cover;
     background-position: left;
-    padding: 20px;
+    padding: 87px;
 }
 
 .login-box {
@@ -46,6 +46,9 @@ body {
 
 .form-group {
     margin-bottom: 20px;
+
+
+
 
 }
 form {
@@ -94,9 +97,89 @@ input[type="password"] {
 .login-button:hover {
     background-color: #ff69b4;
 }
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 100px;
+	background-color: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
+}
+
+.nav .logo {
+	display: flex;
+	align-items: center;
+}
+
+.nav .logo img {
+	width: 60px; 
+	height: auto;
+	margin-right: 10px;
+}
+
+.nav .logo h1 {
+	font-weight: 600;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: #333;
+	font-size: 24px; 
+}
+
+.nav ul {
+	display: flex;
+	list-style: none;
+}
+
+.nav ul li {
+	margin-right: 30px;
+}
+
+.nav ul li a {
+	text-decoration: none;
+	color: #333;
+	font-weight: 500;
+	font-size: 17px;
+	transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+	color: #ff511c;
+}
+
+.signin {
+	color: #ff511c;
+	text-decoration: none;
+	padding: 8px 16px;
+	border: 2px solid #ff511c;
+	border-radius: 5px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.signin:hover {
+	background-color: #ff511c;
+	color: white;
+}
+
+
 
 </style>
 <body>
+	<section class="menu">
+		<div class="nav">
+			<div class="logo">
+				<img src="Picture/logomuchmate1.png" alt="Logo">
+				<h1>
+					Munch<b>Mate</b>
+				</h1>
+			</div>
+			<ul>
+				<li><a class="home" href="index.jsp">Home</a></li>
+				<li><a href="aboutPage.jsp">AboutUs</a></li>
+				<li><a href="contactPage.jsp">Contact</a></li>
+			</ul>
+			<a class="signin" href="signup">Sign Up</a>
+		</div>
+	</section>
+
     <div class="container">
         <div class="login-background">
             <div class="login-box">
@@ -104,8 +187,8 @@ input[type="password"] {
 		<form action="/login" method="post">
                     <div class="form-group">
                         <label for="name">Email:</label>
-                        <input type="text" id="name" name="email" required>
-                    </div>
+ <input type="text" id="name" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required title="Please enter a valid email address">
+                   </div>
 
                     <div class="form-group">
                         <label for="password">Password:</label>
