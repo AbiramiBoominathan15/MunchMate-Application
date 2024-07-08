@@ -98,7 +98,7 @@ p {
 			<li><a href="index.jsp"><button>Home</button></a><br>
 			<br></li>
 			<li>
-				<form action="/foodregister" method="post">
+				<form action="hotelmenu.jsp" method="post">
 					<button type="submit">Orders</button>
 					</a><br>
 					<br>

@@ -176,7 +176,7 @@ input[type="password"] {
 				<li><a href="aboutPage.jsp">AboutUs</a></li>
 				<li><a href="contactPage.jsp">Contact</a></li>
 			</ul>
-			<a class="signin" href="signup">Sign Up</a>
+			<a class="signin" href="signup.jsp">Sign Up</a>
 		</div>
 	</section>
 

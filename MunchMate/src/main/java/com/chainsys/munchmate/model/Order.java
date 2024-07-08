@@ -67,6 +67,8 @@ public class Order {
 				+ ", totalAmount=" + totalAmount + ", paymentMode=" + paymentMode + ", orderDelivery=" + orderDelivery
 				+ ", getOrderId()=" + getOrderId() + ", getHotelId()=" + getHotelId() + ", getFoodName()="
 				+ getFoodName() + ", getAddress()=" + getAddress() + ", getTotalAmount()=" + getTotalAmount()
+				
+				
 				+ ", getPaymentMode()=" + getPaymentMode() + ", getOrderDelivery()=" + getOrderDelivery() + "]";
 	}
 	public Order(int orderId, int hotelId, String foodName, String address, double totalAmount, String paymentMode,

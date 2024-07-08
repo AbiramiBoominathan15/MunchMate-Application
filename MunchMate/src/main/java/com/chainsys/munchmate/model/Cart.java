@@ -8,6 +8,8 @@ public class Cart {
 	public String foodName;
     private byte[]foodImage; 
 	public int quantity;
+	
+	
 	public int hotelId;
 	public int cartItemId;
 	public int userId;

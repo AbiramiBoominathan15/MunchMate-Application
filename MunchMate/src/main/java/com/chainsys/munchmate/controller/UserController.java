@@ -47,8 +47,10 @@ public class UserController {
 		System.out.println(
 				user.getName() + user.getPassword() + user.getPhoneNumber() + user.getCity() + user.getMailId());
 		userDao.insertRegistration(user);
-		return "redirect:/listofusers";
-
+		return "loginPage.jsp";
+		/*
+		 * return "redirect:/listofusers";
+		 */
 	}
 
 	@PostMapping("/hotelregister")
@@ -59,16 +61,16 @@ public class UserController {
 		System.out.println("in register handle");
 
 		if (!imageFile.isEmpty()) {
-			@SuppressWarnings("unused")
 			byte[] imageBytes = imageFile.getBytes();
 
 			Hotel hotel = new Hotel();
 			hotel.setHotelName(name);
+			hotel.setHotelImage(imageBytes);
 			hotel.setHotelPhoneNumber(phonenumber);
 			hotel.setHotelLocation(city);
 			hotel.setHotelPassword(password);
 			hotel.setHotelEmail(email);
-			hotel.setStatus("no");
+			hotel.setStatus("unapproved");
 			System.out.println(hotel.getHotelName() + hotel.getHotelImage() + hotel.getHotelPhoneNumber()
 					+ hotel.getHotelLocation() + hotel.getHotelPassword() + hotel.getHotelEmail());
 			userDao.hotelRegistration(hotel);
@@ -99,6 +101,8 @@ public class UserController {
 	@GetMapping("/hotels")
 	public String getAllHotels(Model model) {
 		List<Hotel> hotels = userDao.getAllHotels();
+		
+		
 		model.addAttribute("hotels", hotels);
 		System.out.println(hotels);
 
@@ -139,11 +143,11 @@ public class UserController {
 				session.setAttribute("hotelId", hotel.getHotelId());
 	            session.setAttribute("hotelName", hotel.getHotelName()); 
 				
-				 return "redirect:/hotelmenu.jsp";
-				 		
 				/*
 				 * return "redirect:/hotelDashboard.jsp";
-				 */	            } 
+				 */				  
+	            return"redirect:hotelAdminDashboard.jsp";
+				 	            } 
 			else {
 				session.setAttribute("message", "Your hotel is not yet approved.");
 				return "redirect:/loginPage.jsp";
@@ -205,12 +209,12 @@ public class UserController {
         model.addAttribute("foodList", foodList);
 		System.out.println(foodList);
 
+		
+		  return "menu.jsp";
+		   
 		/*
-		 * return "menu.jsp";
-		 * 
-		 */   
-		return "food";
-		}
+		 * return "food";
+		 */		}
     @GetMapping("/food")
     public String showFoodList(Model model) {
         List<Food> foods = userDao.getAllFoods();
@@ -240,15 +244,17 @@ public class UserController {
                             @RequestParam("foodname") String foodname,
                             @RequestParam("quantity") int quantity,
                             @RequestParam("price") int price,
-                			@RequestParam("base64Image") MultipartFile imageFile,
-
-                            @RequestParam("mealTime") String foodSession,
-                            Model model,
+/*                			@RequestParam("base64Image") MultipartFile imageFile,
+*/
+			
+			  @RequestParam("mealTime") String foodSession,
+			                            Model model,
                             HttpSession session) throws IOException {
-		if (!imageFile.isEmpty()) {
+/*		if (!imageFile.isEmpty()) {
 			byte[] imageBytes = imageFile.getBytes();			
-
+*/
         double totalPrice = price * quantity;
+       Food food = userDao.getBase64FoodImage(foodid);
 
         Cart cartItem = new Cart();
         cartItem.setUserId(userId);
@@ -259,12 +265,15 @@ public class UserController {
 
         cartItem.setTotalPrice(totalPrice);
         cartItem.setFoodSession(foodSession);
-        
+        cartItem.setFoodImage(food.getFoodImage());
+
         userDao.addToCart(cartItem);
-		}
+		
         return "/foods";
     
     }
+
+
 
 	/*
 	 * @GetMapping("/cartlist") public String showViewCart(Model model,HttpSession
@@ -275,6 +284,8 @@ public class UserController {
     public String showViewCart(Model model, HttpSession session) {
         int userId = (int) session.getAttribute("userid");
         List<Cart> cart = userDao.viewCart(userId);
+        
+        
 
         int hour = LocalTime.now().getHour();
         String mealTime;
@@ -291,8 +302,20 @@ public class UserController {
                                           .collect(Collectors.toList());
 
         model.addAttribute("cart", filteredCartItems); 
-        return "viewCart.jsp"; 
+        return "viewCartt.jsp"; 
     }
+
+		@PostMapping("/removeCartItem")
+		public String removeCartItem(@RequestParam("foodId") int foodId) {
+			userDao.removeCartItem(foodId);
+			return "redirect:/cartlist";
+		}
+	    @PostMapping("/updateCartItemQuantity")
+	    public String updateCartItemQuantity(@RequestParam("foodId") int foodId,
+	                                         @RequestParam("quantity") int quantity) {
+	        userDao.updateCartItemQuantity(foodId, quantity);
+	        return "redirect:/cartlist";
+	    }
 
 
 }

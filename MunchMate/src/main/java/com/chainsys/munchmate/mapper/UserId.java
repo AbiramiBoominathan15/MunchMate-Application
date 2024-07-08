@@ -13,6 +13,8 @@ public class UserId implements RowMapper<Integer> {
 
 	    @Override
 	    public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {  	
+	    
+	    	
 	    	User user = new User();
 	        user.setUserId(rs.getInt("userid"));
 	        return  user.getUserId();

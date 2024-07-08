@@ -39,8 +39,13 @@ public interface UserDAO {
 
     public List<Food> getAllFoods();
 	public void addToCart(Cart cartItem);
+	public Food  getBase64FoodImage(int foodid) ;
 
 	public List<Cart> viewCart(int userId);
+	public void removeCartItem(int foodId);
+	public void updateCartItemQuantity(int foodId, int quantity);
+
+
 
 
 

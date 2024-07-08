@@ -9,6 +9,8 @@ public class Food {
 	public int hotelId;
 	public String hotelName;
 	public String foodName;
+	
+	
 	public int foodPrice;
 	public String foodCategories;
 	public byte[] foodImage;

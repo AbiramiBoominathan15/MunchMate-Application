@@ -125,16 +125,16 @@
     <!-- User Registration Form -->
     <form id="userRegistrationForm" action="/register" method="post">
         <label for="userName">Name:</label>
-        <input type="text" id="userName" name="name" placeholder="Enter your name" pattern="[a-z A_Z]"required><br>
+        <input type="text" id="userName" name="name" placeholder="Enter your name" pattern="[A-Za-z0-9]{6,10}"required><br>
 
         <label for="userPhoneNumber">Phone Number:</label>
         <input type="text" id="userPhoneNumber" name="phonenumber" placeholder="Enter your phone number" pattern="[0-9]{10}" required><br>
 
         <label for="userCity">City:</label>
-        <input type="text" id="userCity" name="city" placeholder="Enter your city" pattern="[A-Z a-z]" required><br>
+        <input type="text" id="userCity" name="city" placeholder="Enter your city"><br>
 
         <label for="userPassword">Password:</label>
-        <input type="password" id="userPassword" name="password" placeholder="Enter your password" pattern="[A-Za-z0-9]{6,10}" required><br>
+        <input type="password" id="userPassword" name="password" placeholder="Enter your password" pattern="[A-Za-z0-9]{6,10,}" required><br>
 
         <label for="userEmail">Email:</label>
  <input type="text" id="name" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required><br>
@@ -143,10 +143,9 @@
         <input type="submit" value="Sign Up">
     </form>
 
-    <!-- Business Registration Form -->
     <form id="businessRegistrationForm" action="/hotelregister" method="post" style="display: none; "enctype="multipart/form-data">
         <label for="businessName">Hotel Name:</label>
-        <input type="text" id="businessName" name="hotelName" placeholder="Enter your business name" pattern="[a-z A-Z]"required><br>
+        <input type="text" id="businessName" name="hotelName" placeholder="Enter your business name" pattern="[A-Za-z0-9\s\-\'\&\,\(\)\.\/]+"required><br>
 
         <label for="hotelImage">Hotel Image:</label>
         <input type="file" id="hotelImage" name="image" accept="image/*"><br>
@@ -155,7 +154,7 @@
         <input type="text" id="businessPhoneNumber" name="phonenumber" placeholder="Enter your phone number" pattern="[0-9]{10}" required><br>
 
         <label for="businessCity">City:</label>
-        <input type="text" id="businessCity" name="city" placeholder="Enter your city" pattern="[a-z A-Z]" required><br>
+        <input type="text" id="businessCity" name="city" placeholder="Enter your city"  ><br>
 
         <label for="businessPassword">Password:</label>
         <input type="password" id="businessPassword" name="password" placeholder="Enter your password"  pattern="[A-Za-z0-9]{6,10}" required><br>

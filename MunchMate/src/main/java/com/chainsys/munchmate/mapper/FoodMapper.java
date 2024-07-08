@@ -15,11 +15,11 @@ public class FoodMapper implements RowMapper<Food> {
         Food food = new Food();
         food.setFoodId(rs.getInt("foodid"));
         food.setHotelId(rs.getInt("hotelid"));
+       
+        
         food.setHotelName(rs.getString("hotelname"));
         food.setFoodName(rs.getString("name"));
         food.setFoodPrice(rs.getInt("price"));
-       
-        
         food.setFoodQuantity(rs.getInt("quantity"));
         food.setFoodCategories(rs.getString("catagories"));
         food.setFoodSession(rs.getString("mealtime"));

@@ -136,7 +136,7 @@
                 <textarea id="foodDescription" name="foodDescription" rows="4" placeholder="Enter food description"></textarea>
             </div>
             <center>
-           <form action="/foodList" method="get">
+           <form action="/login" method="post">
            <input type="hidden" id="hotelid" name="hotelId" value="<%= session.getAttribute("hotelId") %>" required>
            	 <button type="submit" class="btn-submit">Submit</button>
            </form>

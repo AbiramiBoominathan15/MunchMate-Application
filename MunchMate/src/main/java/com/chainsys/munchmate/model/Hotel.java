@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class Hotel {
 	public int hotelId;
+	
+	
 	public String hotelName;
 	public String hotelLocation;
 	public String hotelPhoneNumber;

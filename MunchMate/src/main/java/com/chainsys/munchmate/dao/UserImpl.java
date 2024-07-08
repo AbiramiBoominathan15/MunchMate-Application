@@ -13,9 +13,10 @@ import com.chainsys.munchmate.model.Food;
 import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
 import com.chainsys.munchmate.mapper.CartMapper;
+import com.chainsys.munchmate.mapper.FoodImageMapper;
 import com.chainsys.munchmate.mapper.FoodMapper;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-@Repository
+@Repository("userDAO")
 public class UserImpl implements UserDAO {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -36,9 +37,9 @@ public class UserImpl implements UserDAO {
     }
 	@Override
 	public void hotelRegistration(Hotel hotel) {
-		String save = "insert into hotel(name,location,image,phonenumber,email,password,status, action)values(?,?,?,?,?,?,?,?)";
+		String save = "insert into hotel(name,location,image,phonenumber,email,password,status)values(?,?,?,?,?,?,?)";
 		Object[] params = { hotel.getHotelName(), hotel.getHotelLocation(),hotel.getHotelImage(), hotel.getHotelPhoneNumber(),
-				hotel.getHotelEmail(), hotel.getHotelPassword() ,hotel.getStatus(),0};
+				hotel.getHotelEmail(), hotel.getHotelPassword() ,hotel.getStatus()};
 		@SuppressWarnings("unused")
 		int noOfRows = jdbcTemplate.update(save, params);
 		System.out.println("in DAO -save");
@@ -110,6 +111,8 @@ public class UserImpl implements UserDAO {
 	@Override
 	public void insertFood(Food food) {
 		String save = "insert into food(hotelid,hotelname,image,name,price,quantity,catagories,mealtime)values(?,?,?,?,?,?,?,?)";
+		
+		
 		Object[] params = {food.getHotelId(),food.getHotelName(),food.getFoodImage(),food.getFoodName(),food.getFoodPrice(),food.getFoodQuantity(),food.getFoodCategories(),food.getFoodSession()};
 		int noOfRows = jdbcTemplate.update(save, params);
 		System.out.println("in DAO -save");
@@ -137,19 +140,29 @@ public class UserImpl implements UserDAO {
 		Object[] params = {cartItem.getUserId(),cartItem.getFoodId(),cartItem.getFoodName(),cartItem.getQuantity(),cartItem.getTotalPrice(),cartItem.getFoodSession()};
 		int noOfRows = jdbcTemplate.update(save, params);
 		System.out.println("in DAO -save");
-
-		
 		
 	}
 	public List<Cart> viewCart(int userId) {
 		System.out.println("userId - " +userId);
-	    String query = "SELECT userid,foodname,quantity,totalprice,mealtime FROM cart WHERE userid = ?";
-	    try {
+	    String query = "SELECT userid,foodid,foodname,quantity,totalprice,mealtime FROM cart WHERE userid = ? and active=0";
 	        return jdbcTemplate.query(query, new CartMapper(), userId);
-	    } catch (EmptyResultDataAccessException ex) {
-	        return Collections.emptyList(); 
-	    }
-
+	    
 
 	}
+	@Override
+	public Food  getBase64FoodImage(int foodid) {
+	    String query = "SELECT image FROM food WHERE foodid = ?";
+	   return jdbcTemplate.queryForObject(query, new Object[]{foodid}, new FoodImageMapper());
+	}
+	public void removeCartItem(int foodId) {
+	    String deleteQuery = "UPDATE cart SET active = 1 WHERE foodid = ?";
+	    jdbcTemplate.update(deleteQuery, foodId);
+	}
+	public void updateCartItemQuantity(int foodId, int quantity) {
+		
+	    String updateQuery = "UPDATE cart SET quantity = ? WHERE foodid = ?";
+	    jdbcTemplate.update(updateQuery, quantity, foodId);
+	}
+
+
 }
