@@ -133,8 +133,6 @@ p {
 
 <div class="content">
 		<img class="img" style="width: 104%"
-	
-	
 			src="https://www.slideteam.net/media/catalog/product/cache/1280x720/f/o/food_quality_and_safety_management_guide_powerpoint_presentation_slides_slide01.jpg">
 </div>
 
@@ -157,7 +155,7 @@ p {
             /* background-image: url("https://static.vecteezy.com/system/resources/previews/024/214/119/non_2x/enjoy-your-meal-illustration-a-variety-of-delicious-food-in-home-or-restaurant-in-flat-cartoon-hand-drawn-landing-page-background-templates-vector.jpg");
             background-size: cover; 
             background-position: center; */
-            font-family: Arial, sans-serif; /* Added font-family for consistency */
+            font-family: Arial, sans-serif; 
         }
 
         .main{
@@ -243,19 +241,28 @@ p {
                 <h1>Munch<b style="color:#ff511c">Mate</b></h1>
             </div>
             <ul>
-               <li><a class="home" href="index.jsp">Home</a></li> 
-                <li>
-               <a href="hotels">Orders</a>
-            </form>
-               </li>
-			<li><a href="/food">Menu</a></li>
+           
+           
+               <li><a class="home" href="hotelAdminDashboard.jsp">Home</a></li> 
+               <li>
+<form action="hotelmenu.jsp" method="post">
+					<button type="submit">Orders</button>
+					</a><br>
+					<br>
+				</form>
+				</li>
+						<li><a href="/foodList">Menu</a></li>
                
-                <li><a href="listofusers">User</a></li>
                 <li><a href="aboutPage.jsp">AboutUs</a></li>
                 
                 <li><a href="contactPage.jsp">Contact</a></li>
+                <form action="/orderView" method="post">
+                     <input type="hidden" id="hotelid" name="hotelid" value="<%= session.getAttribute("hotelId") %>" required>
+                	
+                	<li><input type="submit"  value="Purchase"></li>
+                </form>
             </ul>
-            <a class="signin" href="signup">Sign Up</a>
+            <a class="signin" href="loginPage.jsp">Sign In</a>
         </div>
     </section>
     <section class="main">

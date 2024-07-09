@@ -277,7 +277,6 @@
         background-color: #ff69b4; 
     }
 
-    /* Additional styles for responsiveness */
     @media screen and (max-width: 768px) {
         .nav {
             padding: 20px; 
@@ -307,7 +306,7 @@
  -->            <li><a href="aboutPage.jsp">AboutUs</a></li>
             <li><a href="contactPage.jsp">Contact</a></li>
         </ul>
-                <form class="search-form" action="search.jsp" method="get">
+        <form class="searchFoods" action="foodSearch.jsp" method="get">
             <input class="search-input" type="text" placeholder="Search..." name="query">
             <button class="search-button" type="submit">Search</button>
         </form>
@@ -318,6 +317,9 @@
     <section class="menu">
         <div class="container">
             <h2 class="text-center mb-4">Menu</h2>
+        
+        
+        
             <div class="row">
                 <% 
                 int userId = (int) session.getAttribute("userid");
@@ -340,6 +342,7 @@
                     <div class="food-card">
                         <img src="data:image/jpg;base64,<%= new String(Base64.getEncoder().encode(food.getFoodImage())) %>" class="card-img-top food-image"  alt="Food Image">
                         <div class="card-body">
+                        
                             <h5 class="card-title"><%= food.getHotelName() %></h5>
                             <p class="card-text"><%= food.getFoodName() %></p>
 <%--                             <p class="card-price" name="price"  value=" <%= food.getFoodPrice() %>"  readonly="readonly">Price: <%= food.getFoodPrice() %></p>
@@ -348,6 +351,8 @@
                                 <input type="hidden" value="<%= userId %>" name="userid">
                                 <input type="hidden" value="<%= food.getFoodName() %>" name="foodname">
                                 <input type="hidden" value="<%= food.getFoodId() %>" name="foodid">
+                                                                <input type="hidden" value="<%=food.getHotelId() %>" name="hotelid">
+                                
                                 <input type="hidden" name="mealTime" value="<%= food.getFoodSession() %>">
 <%--                                 				<input type="file" name="base64Image" value="<%=new String(Base64.getEncoder().encode(food.getFoodImage()))%>">
  --%>                                

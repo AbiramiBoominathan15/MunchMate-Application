@@ -144,6 +144,8 @@
     </form>
 
     <form id="businessRegistrationForm" action="/hotelregister" method="post" style="display: none; "enctype="multipart/form-data">
+        
+        
         <label for="businessName">Hotel Name:</label>
         <input type="text" id="businessName" name="hotelName" placeholder="Enter your business name" pattern="[A-Za-z0-9\s\-\'\&\,\(\)\.\/]+"required><br>
 

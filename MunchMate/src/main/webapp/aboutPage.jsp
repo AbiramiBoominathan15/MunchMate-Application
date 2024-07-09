@@ -170,6 +170,9 @@ body {
                 <img src="Picture/logomuchmate1.png" alt="Logo">
                 <h1>Munch<b>Mate</b></h1>
             </div>
+       
+       
+       
             <ul>
                 <li><a class="home" href="index.jsp">Home</a></li>
                 <li><a href="aboutPage.jsp">About Us</a></li>

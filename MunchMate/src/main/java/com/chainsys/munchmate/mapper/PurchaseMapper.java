@@ -9,16 +9,17 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.chainsys.munchmate.model.Cart;
 
-public class CartMapper implements RowMapper<Cart> {
+public class PurchaseMapper implements RowMapper<Cart> {
 	public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		
-		
 		Cart cartItem = new Cart();
 
 		int userId = rs.getInt(1);
-		int foodid= rs.getInt(2);
-		String foodname = rs.getString(3);
+		int hotelid=rs.getInt(2);
+		
+		
+		int foodid= rs.getInt(3);
+		String foodname = rs.getString(4);
 		/*
 		 * Blob blob = rs.getBlob("image"); if (blob != null) { int blobLength = (int)
 		 * blob.length(); byte[] blobAsBytes = blob.getBytes(1, blobLength);
@@ -26,10 +27,11 @@ public class CartMapper implements RowMapper<Cart> {
 		 */
 	
 		
-		int quantity = rs.getInt(4);
-		int price = rs.getInt(5);
-		String foodSession = rs.getString(6);
+		int quantity = rs.getInt(5);
+		int price = rs.getInt(6);
+		String foodSession = rs.getString(7);
 		cartItem.setUserId(userId);
+		cartItem.setHotelId(hotelid);
 		cartItem.setFoodId(foodid);
 		cartItem.setFoodName(foodname);
 		cartItem.setQuantity(quantity);

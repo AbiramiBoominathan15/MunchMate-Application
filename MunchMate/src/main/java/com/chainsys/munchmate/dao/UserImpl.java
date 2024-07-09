@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.chainsys.munchmate.mapper.HotelMapper;
+import com.chainsys.munchmate.mapper.SearchFoodMapper;
 import com.chainsys.munchmate.mapper.UserId;
 import com.chainsys.munchmate.mapper.UserMapper;
 import com.chainsys.munchmate.model.Cart;
@@ -14,6 +15,8 @@ import com.chainsys.munchmate.model.Hotel;
 import com.chainsys.munchmate.model.User;
 import com.chainsys.munchmate.mapper.CartMapper;
 import com.chainsys.munchmate.mapper.FoodImageMapper;
+import com.chainsys.munchmate.mapper.PurchaseMapper;
+
 import com.chainsys.munchmate.mapper.FoodMapper;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 @Repository("userDAO")
@@ -136,8 +139,8 @@ public class UserImpl implements UserDAO {
 	    jdbcTemplate.update(deleteQuery, hotelId);
 	}
 	public void addToCart(Cart cartItem) {
-		String save = "insert into cart(userid,foodid,foodname,quantity,totalprice,mealtime)values(?,?,?,?,?,?)";
-		Object[] params = {cartItem.getUserId(),cartItem.getFoodId(),cartItem.getFoodName(),cartItem.getQuantity(),cartItem.getTotalPrice(),cartItem.getFoodSession()};
+		String save = "insert into cart(userid,hotelid,foodid,foodname,quantity,totalprice,mealtime)values(?,?,?,?,?,?,?)";
+		Object[] params = {cartItem.getUserId(),cartItem.getFoodId(),cartItem.getFoodId(),cartItem.getFoodName(),cartItem.getQuantity(),cartItem.getTotalPrice(),cartItem.getFoodSession()};
 		int noOfRows = jdbcTemplate.update(save, params);
 		System.out.println("in DAO -save");
 		
@@ -152,7 +155,7 @@ public class UserImpl implements UserDAO {
 	@Override
 	public Food  getBase64FoodImage(int foodid) {
 	    String query = "SELECT image FROM food WHERE foodid = ?";
-	   return jdbcTemplate.queryForObject(query, new Object[]{foodid}, new FoodImageMapper());
+	   return jdbcTemplate.queryForObject(query, new FoodImageMapper(), new Object[]{foodid});
 	}
 	public void removeCartItem(int foodId) {
 	    String deleteQuery = "UPDATE cart SET active = 1 WHERE foodid = ?";
@@ -163,6 +166,49 @@ public class UserImpl implements UserDAO {
 	    String updateQuery = "UPDATE cart SET quantity = ? WHERE foodid = ?";
 	    jdbcTemplate.update(updateQuery, quantity, foodId);
 	}
+	@Override
 
+	/*
+	 * public List<Food> searchFood(String foodName) { String query =
+	 * "SELECT image, name, price FROM food WHERE name LIKE ?"; try { return
+	 * (List<Food>) jdbcTemplate.queryForObject(query,new SearchFoodMapper(), new
+	 * Object[]{foodName}); } catch (Exception e) { e.printStackTrace(); return
+	 * null; }
+	 * 
+	 * }
+	 */	public List<Food> searchFood(String foodName) {
+	    String query = "SELECT image, name, price FROM food WHERE name LIKE ?";
+	    try {
+	        return jdbcTemplate.query(query, new SearchFoodMapper(), "%" + foodName + "%");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return Collections.emptyList(); 
+	    }
+	}
+	
+
+	    @Override
+	    public void updateFoodPrice(int foodId, int newPrice) {
+	        String sql = "UPDATE food SET price = ? WHERE foodid = ?";
+	        jdbcTemplate.update(sql, newPrice, foodId);
+	    }
+
+	    @Override
+	    public void updateFoodQuantity(int foodId, int newQuantity){
+	        String sql = "UPDATE food SET quantity = ? WHERE foodid = ?";
+	        jdbcTemplate.update(sql, newQuantity, foodId);
+	    }
+
+	    @Override
+
+public List<Cart> orderView(int hotelId) {
+	System.out.println("userId - " +hotelId);
+    String query = "SELECT userid,hotelid,foodid,foodname,quantity,totalprice,mealtime FROM cart WHERE hotelid = ? and active=0";
+        return jdbcTemplate.query(query, new PurchaseMapper(), hotelId);
+    
 
 }
+
+}
+
+

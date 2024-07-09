@@ -226,6 +226,7 @@ public class UserController {
     public String showFoodListt(Model model) {
         List<Food> foods = userDao.getAllFoods();
         model.addAttribute("foods", foods);
+        System.out.println("------>showFoodListt");
         return "addToCart.jsp"; 
     }
     @PostMapping("/deleteHotel")
@@ -240,6 +241,8 @@ public class UserController {
     @GetMapping("/addToCart")
     public String addToCart(@RequestParam("userid") int userId,
             @RequestParam("foodid") int foodid,
+            @RequestParam("hotelid") int hotelid,
+
 
                             @RequestParam("foodname") String foodname,
                             @RequestParam("quantity") int quantity,
@@ -253,12 +256,15 @@ public class UserController {
 /*		if (!imageFile.isEmpty()) {
 			byte[] imageBytes = imageFile.getBytes();			
 */
-        double totalPrice = price * quantity;
+    	System.err.println("------>");
+       double totalPrice = price * quantity;
        Food food = userDao.getBase64FoodImage(foodid);
 
         Cart cartItem = new Cart();
         cartItem.setUserId(userId);
         cartItem.setFoodId(foodid);
+        cartItem.setHotelId(hotelid);
+        System.out.println(hotelid);
         cartItem.setFoodName(foodname);
 
         cartItem.setQuantity(quantity);
@@ -284,7 +290,6 @@ public class UserController {
     public String showViewCart(Model model, HttpSession session) {
         int userId = (int) session.getAttribute("userid");
         List<Cart> cart = userDao.viewCart(userId);
-        
         
 
         int hour = LocalTime.now().getHour();
@@ -312,13 +317,61 @@ public class UserController {
 		}
 	    @PostMapping("/updateCartItemQuantity")
 	    public String updateCartItemQuantity(@RequestParam("foodId") int foodId,
-	                                         @RequestParam("quantity") int quantity) {
-	        userDao.updateCartItemQuantity(foodId, quantity);
-	        return "redirect:/cartlist";
+	                                         @RequestParam("quantity") int quantity,  HttpSession session,Model model) {
+	        userDao.updateCartItemQuantity(foodId, quantity); 
+	        List<Cart> cartItems = (List<Cart>) session.getAttribute("cartItems");
+	        for(Cart cartItem : cartItems) {
+	        	double price = cartItem.getTotalPrice()/cartItem.getQuantity();
+	        	cartItem.setQuantity(quantity);
+	        	cartItem.setTotalPrice(price * quantity);
+	        	System.out.println("total price -" + cartItem.getTotalPrice());
+	        	System.out.println("quantity -" + cartItem.getQuantity());
+	        }
+	        int hour = LocalTime.now().getHour();
+	        String mealTime;
+	        if (hour >= 6 && hour < 12) {
+	            mealTime = "Breakfast";
+	        } else if (hour >= 12 && hour < 17) {
+	            mealTime = "Lunch";
+	        } else {
+	            mealTime = "Dinner";
+	        }
+
+	        List<Cart> filteredCartItems = cartItems.stream()
+	                                          .filter(item -> item.getFoodSession().equalsIgnoreCase(mealTime))
+	                                          .collect(Collectors.toList());
+
+	        model.addAttribute("cart", filteredCartItems); 
+	        return "viewCartt.jsp"; 
 	    }
+
+	    
+@PostMapping("/updateFoodPrice")
+public String updateFoodPrice(@RequestParam("foodId") int foodId, @RequestParam("newPrice") int newPrice) {
+    userDao.updateFoodPrice(foodId, newPrice);
+	return "redirect:/foodList";
+}
+
+@PostMapping("/updateFoodQuantity")
+public String updateFoodQuantity(@RequestParam("foodId") int foodId, @RequestParam("newQuantity") int newQuantity) {
+    userDao.updateFoodQuantity(foodId, newQuantity);
+	return "redirect:/foodList";
+}
+
+
+@PostMapping("/orderView")
+public String orderView(@RequestParam("hotelid") int hotelId, Model model) {
+    System.err.println("------");
+	List<Cart> cartItems = userDao.orderView(hotelId);
+    model.addAttribute("cartItems", cartItems); 
+    return "orderview.jsp"; 
+}
 
 
 }
+
+
+
 
 
 

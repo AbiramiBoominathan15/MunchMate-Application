@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.chainsys.munchmate.model.User;
 
+
+
 public class UserId implements RowMapper<Integer> {
 
 	    @Override

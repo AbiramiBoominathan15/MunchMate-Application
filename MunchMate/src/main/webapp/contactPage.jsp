@@ -250,6 +250,8 @@ body {
                 <p><strong>Phone:</strong> +123 456 7890</p>
                 <p><strong>Email:</strong> info@hungerbox.com</p>
             </div>
+      
+      
             <form action="#" method="post" class="contact-form">
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" required>

@@ -8,7 +8,10 @@ import org.springframework.jdbc.core.RowMapper;
 import com.chainsys.munchmate.model.User;
 
 public class UserMapper implements RowMapper<User>{
-		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+	
+	
+	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 			
 			

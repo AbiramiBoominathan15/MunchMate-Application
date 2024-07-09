@@ -351,6 +351,8 @@
                 <li><a href="contactPage.jsp">Contact</a></li>
             </ul>
             <a class="signin" href="signup">Sign Up</a>
+     
+     
         </div>
     </section>
 

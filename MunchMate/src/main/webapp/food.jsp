@@ -3,6 +3,8 @@
 <%@ page import="java.util.Base64" %>
 <%@ page import="com.chainsys.munchmate.model.Food" %>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

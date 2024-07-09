@@ -31,22 +31,22 @@ public interface UserDAO {
 	public void updateHotel(Hotel hotel);
 
 	public Hotel getHotelByEmail(String email);
-	
-	
 	public void insertFood(Food food) ;
 	public List<Food> getFoodsByHotelId(int hotelId);
 	public void deleteHotel(int hotelId) ;
-
     public List<Food> getAllFoods();
 	public void addToCart(Cart cartItem);
 	public Food  getBase64FoodImage(int foodid) ;
-
 	public List<Cart> viewCart(int userId);
 	public void removeCartItem(int foodId);
 	public void updateCartItemQuantity(int foodId, int quantity);
 
+	public List<Food> searchFood(String foodName);
 
+    public void updateFoodPrice(int foodId, int newPrice) ;
 
+    public void updateFoodQuantity(int foodId, int newQuantity);
 
+    public List<Cart> orderView(int hotelId);
 
 }
