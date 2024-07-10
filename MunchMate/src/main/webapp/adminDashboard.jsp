@@ -249,6 +249,7 @@ p {
             </form>
                </li>
 			<li><a href="/food">Menu</a></li>
+               			<li><a href="">Purchase</a></li>
                
                 <li><a href="listofusers">User</a></li>
                 <li><a href="aboutPage.jsp">AboutUs</a></li>

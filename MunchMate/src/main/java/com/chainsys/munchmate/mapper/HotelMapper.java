@@ -17,6 +17,8 @@ public class HotelMapper implements RowMapper<Hotel> {
 		
 		
 		
+		
+		
 		Hotel hotel = new Hotel();
 
 		int hotelId = rs.getInt(1);

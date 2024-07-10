@@ -28,6 +28,8 @@ public class PurchaseMapper implements RowMapper<Cart> {
 	
 		
 		int quantity = rs.getInt(5);
+		
+		
 		int price = rs.getInt(6);
 		String foodSession = rs.getString(7);
 		cartItem.setUserId(userId);

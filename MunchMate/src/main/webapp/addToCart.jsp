@@ -137,11 +137,15 @@
         padding: 0;
     }
     .menu {
-        background-color: #f2f2f2;
-        padding: 20px;
+/*         background-color: #5585b5;
+
+ */        
+ background-color:#F4F7FA
+;
+ padding: 20px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: 20px;
-    }
+/*         margin-top: 20px;
+ */    }
     .food-card {
         border: 1px solid #ddd;
         border-radius: 8px;
@@ -196,8 +200,8 @@
         transform: scale(1.05);
     }
     .nav {
-        background-color: #AA336A; 
-        padding: 20px 100px;
+        background-color: #9fd3c7; 
+        padding: 35px 12px;
         backdrop-filter: blur(10px);
         top: 0;
         left: 0;
@@ -209,7 +213,7 @@
         position: relative;
     }
     .nav .logo img {
-        width: 60px;
+        width: 70px;
         height: auto;
         margin-right: 10px;
     }
@@ -217,7 +221,6 @@
         font-weight: 600;
         font-size: 24px;
         margin: 0;
-        color: #ffffff; 
     }
     .nav ul {
         display: flex;
@@ -230,7 +233,7 @@
     }
     .nav ul li a {
         text-decoration: none;
-        color: #ffffff; 
+        color: black; 
         font-weight: 500;
         font-size: 17px;
         transition: color 0.3s ease;
@@ -276,6 +279,14 @@
     .search-button:hover {
         background-color: #ff69b4; 
     }
+  .logo{
+        vertical-align:middle;
+        display:inline-block;
+        }
+        .header{
+                vertical-align:middle;
+        display:inline-block;
+        }
 
     @media screen and (max-width: 768px) {
         .nav {
@@ -290,6 +301,7 @@
         .search-input {
             width: 200px; 
         }
+      
     }
 </style>
      
@@ -298,7 +310,7 @@
     <div class="nav">
         <div class="logo">
             <img src="Picture/logomuchmate1.png" alt="Logo">
-            <h1>Munch<b>Mate</b></h1>
+            <h1 class= "header">Munch<b>Mate</b></h1>
         </div>
         <ul>
             <li><a class="home" href="index.jsp">Home</a></li>
@@ -306,8 +318,8 @@
  -->            <li><a href="aboutPage.jsp">AboutUs</a></li>
             <li><a href="contactPage.jsp">Contact</a></li>
         </ul>
-        <form class="searchFoods" action="foodSearch.jsp" method="get">
-            <input class="search-input" type="text" placeholder="Search..." name="query">
+        <form class="searchFoods" action="/foodSearch" method="post">
+            <input class="search-input" type="text" placeholder="Search..." name="foodName">
             <button class="search-button" type="submit">Search</button>
         </form>
         

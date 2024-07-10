@@ -10,12 +10,13 @@
 body {
     margin: 0;
     padding: 0;
+    background-color:#5585b5;
 /*     display: flex;
  */    justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg");
-    background-size: cover; 
+/*     background-image: url("https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg");
+ */    background-size: cover; 
     background-position: center;
 
 }
@@ -102,7 +103,7 @@ input[type="password"] {
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 100px;
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: #9fd3c7;
 	backdrop-filter: blur(10px);
 }
 
@@ -177,6 +178,8 @@ input[type="password"] {
 				<li><a class="home" href="index.jsp">Home</a></li>
 				<li><a href="aboutPage.jsp">AboutUs</a></li>
 				<li><a href="contactPage.jsp">Contact</a></li>
+	
+	
 			</ul>
 			<a class="signin" href="signup.jsp">Sign Up</a>
 		</div>

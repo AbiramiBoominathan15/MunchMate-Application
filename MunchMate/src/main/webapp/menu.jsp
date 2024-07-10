@@ -228,6 +228,8 @@
 					<br>
 				</form>
 				</li>
+			
+			
 						<li><a href="/foodList">Menu</a></li>
                
                 <li><a href="aboutPage.jsp">AboutUs</a></li>

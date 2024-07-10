@@ -56,8 +56,7 @@ public class UserController {
 	@PostMapping("/hotelregister")
 	public String saveHotel(@RequestParam("hotelName") String name, @RequestParam("image") MultipartFile imageFile,
 			@RequestParam("phonenumber") String phonenumber, @RequestParam("city") String city,
-			@RequestParam("password") String password, @RequestParam("email") String email)
-			throws  IOException {
+			@RequestParam("password") String password, @RequestParam("email") String email) throws IOException {
 		System.out.println("in register handle");
 
 		if (!imageFile.isEmpty()) {
@@ -77,14 +76,14 @@ public class UserController {
 
 			/*
 			 * return "redirect:/hotels";
-			 */		
-		return "redirect:loginPage.jsp";
-	}
-		else {
+			 */
+			return "redirect:loginPage.jsp";
+		} else {
 			return "redirect:/error";
 		}
 	}
-	 @GetMapping("/listofusers")
+
+	@GetMapping("/listofusers")
 	public String listOfUsers(Model model) {
 		List<User> users = userDao.getAllUsers();
 		model.addAttribute("users", users);
@@ -101,8 +100,7 @@ public class UserController {
 	@GetMapping("/hotels")
 	public String getAllHotels(Model model) {
 		List<Hotel> hotels = userDao.getAllHotels();
-		
-		
+
 		model.addAttribute("hotels", hotels);
 		System.out.println(hotels);
 
@@ -123,7 +121,7 @@ public class UserController {
 	 * return "redirect:/menuDisplay.jsp"; } else { session.setAttribute("message",
 	 * "Invalid credentials. Please try again."); return "redirect:/loginPage.jsp";
 	 * } } 134 157
-	 */ 
+	 */
 	@PostMapping("/login")
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password,
 			HttpSession session) {
@@ -141,21 +139,17 @@ public class UserController {
 					&& hotel.getStatus().equalsIgnoreCase("approved")) {
 				session.setAttribute("email", email);
 				session.setAttribute("hotelId", hotel.getHotelId());
-	            session.setAttribute("hotelName", hotel.getHotelName()); 
-				
+				session.setAttribute("hotelName", hotel.getHotelName());
+
 				/*
 				 * return "redirect:/hotelDashboard.jsp";
-				 */				  
-	            return"redirect:hotelAdminDashboard.jsp";
-				 	            } 
-			else {
+				 */
+				return "redirect:hotelAdminDashboard.jsp";
+			} else {
 				session.setAttribute("message", "Your hotel is not yet approved.");
 				return "redirect:/loginPage.jsp";
 			}
-			
-			
-			
-			
+
 		}
 	}
 
@@ -168,20 +162,17 @@ public class UserController {
 
 		return "redirect:/hotels";
 	}
+
 	@PostMapping("/foodregister")
-	public String saveFood(@RequestParam("hotelid") int hotelId, 
-			@RequestParam("hotelname") String hotelName, 
-			@RequestParam("foodName") String foodName, 
-			@RequestParam("foodCategory") String foodCategory, 
-			@RequestParam("foodSession") String foodSession, 
-			@RequestParam("foodPrice") int foodPrice, 
-			@RequestParam("foodQuantity") int foodQuantity, 
-			@RequestParam("image") MultipartFile imageFile)
+	public String saveFood(@RequestParam("hotelid") int hotelId, @RequestParam("hotelname") String hotelName,
+			@RequestParam("foodName") String foodName, @RequestParam("foodCategory") String foodCategory,
+			@RequestParam("foodSession") String foodSession, @RequestParam("foodPrice") int foodPrice,
+			@RequestParam("foodQuantity") int foodQuantity, @RequestParam("image") MultipartFile imageFile)
 			throws ClassNotFoundException, SQLException, IOException {
 		System.out.println("in register handle");
 
 		if (!imageFile.isEmpty()) {
-			byte[] imageBytes = imageFile.getBytes();			
+			byte[] imageBytes = imageFile.getBytes();
 			Food food = new Food();
 			food.setHotelId(hotelId);
 			food.setHotelName(hotelName);
@@ -191,9 +182,9 @@ public class UserController {
 			food.setFoodPrice(foodPrice);
 			food.setFoodQuantity(foodQuantity);
 			food.setFoodImage(imageBytes);
-			System.out.println(food.getHotelName()+food.getFoodName()+food.getFoodCategories()+food.getFoodSession());
-			
-			
+			System.out.println(
+					food.getHotelName() + food.getFoodName() + food.getFoodCategories() + food.getFoodSession());
+
 			userDao.insertFood(food);
 
 			return "redirect:/foodList";
@@ -201,178 +192,179 @@ public class UserController {
 			return "redirect:/error";
 		}
 	}
-    @GetMapping("/foodList")
-    public String showFoodList(Model model,HttpSession session) 
-    {
-    	int hotelId=(int) session.getAttribute("hotelId");
-        List<Food> foodList = userDao.getFoodsByHotelId(hotelId);
-        model.addAttribute("foodList", foodList);
+
+	@GetMapping("/foodList")
+	public String showFoodList(Model model, HttpSession session) {
+		int hotelId = (int) session.getAttribute("hotelId");
+		List<Food> foodList = userDao.getFoodsByHotelId(hotelId);
+		model.addAttribute("foodList", foodList);
 		System.out.println(foodList);
 
-		
-		  return "menu.jsp";
-		   
+		return "menu.jsp";
+
 		/*
 		 * return "food";
-		 */		}
-    @GetMapping("/food")
-    public String showFoodList(Model model) {
-        List<Food> foods = userDao.getAllFoods();
-        model.addAttribute("foods", foods);
-        return "food.jsp"; 
-    }
+		 */ }
 
-    @GetMapping("/foods")
-    public String showFoodListt(Model model) {
-        List<Food> foods = userDao.getAllFoods();
-        model.addAttribute("foods", foods);
-        System.out.println("------>showFoodListt");
-        return "addToCart.jsp"; 
-    }
-    @PostMapping("/deleteHotel")
-    public String deleteHotel(@RequestParam("hotelId") int hotelId) {
-        try {
-            userDao.deleteHotel(hotelId); 
-            return "redirect:/hotels";
-        } catch (Exception e) {
-            return "redirect:/error";
-        }
-    }
-    @GetMapping("/addToCart")
-    public String addToCart(@RequestParam("userid") int userId,
-            @RequestParam("foodid") int foodid,
-            @RequestParam("hotelid") int hotelid,
+	@GetMapping("/food")
+	public String showFoodList(Model model) {
+		List<Food> foods = userDao.getAllFoods();
+		model.addAttribute("foods", foods);
+		return "food.jsp";
+	}
 
+	@GetMapping("/foods")
+	public String showFoodListt(Model model) {
+		List<Food> foods = userDao.getAllFoods();
+		model.addAttribute("foods", foods);
+		System.out.println("------>showFoodListt");
+		return "addToCart.jsp";
+	}
 
-                            @RequestParam("foodname") String foodname,
-                            @RequestParam("quantity") int quantity,
-                            @RequestParam("price") int price,
-/*                			@RequestParam("base64Image") MultipartFile imageFile,
-*/
-			
-			  @RequestParam("mealTime") String foodSession,
-			                            Model model,
-                            HttpSession session) throws IOException {
-/*		if (!imageFile.isEmpty()) {
-			byte[] imageBytes = imageFile.getBytes();			
-*/
-    	System.err.println("------>");
-       double totalPrice = price * quantity;
-       Food food = userDao.getBase64FoodImage(foodid);
+	@PostMapping("/deleteHotel")
+	public String deleteHotel(@RequestParam("hotelId") int hotelId) {
+		try {
+			userDao.deleteHotel(hotelId);
+			return "redirect:/hotels";
+		} catch (Exception e) {
+			return "redirect:/error";
+		}
+	}
 
-        Cart cartItem = new Cart();
-        cartItem.setUserId(userId);
-        cartItem.setFoodId(foodid);
-        cartItem.setHotelId(hotelid);
-        System.out.println(hotelid);
-        cartItem.setFoodName(foodname);
+	@GetMapping("/addToCart")
+	public String addToCart(@RequestParam("userid") int userId, @RequestParam("foodid") int foodid,
+			@RequestParam("hotelid") int hotelid,
 
-        cartItem.setQuantity(quantity);
+			@RequestParam("foodname") String foodname, @RequestParam("quantity") int quantity,
+			@RequestParam("price") int price,
+			/*
+			 * @RequestParam("base64Image") MultipartFile imageFile,
+			 */
 
-        cartItem.setTotalPrice(totalPrice);
-        cartItem.setFoodSession(foodSession);
-        cartItem.setFoodImage(food.getFoodImage());
+			@RequestParam("mealTime") String foodSession, Model model, HttpSession session) throws IOException {
+		/*
+		 * if (!imageFile.isEmpty()) { byte[] imageBytes = imageFile.getBytes();
+		 */
+		System.err.println("------>");
+		double totalPrice = price * quantity;
+		Food food = userDao.getBase64FoodImage(foodid);
 
-        userDao.addToCart(cartItem);
-		
-        return "/foods";
-    
-    }
+		Cart cartItem = new Cart();
+		cartItem.setUserId(userId);
+		cartItem.setFoodId(foodid);
+		cartItem.setHotelId(hotelid);
+		System.out.println(hotelid);
+		cartItem.setFoodName(foodname);
 
+		cartItem.setQuantity(quantity);
 
+		cartItem.setTotalPrice(totalPrice);
+		cartItem.setFoodSession(foodSession);
+		cartItem.setFoodImage(food.getFoodImage());
+
+		userDao.addToCart(cartItem);
+
+		return "/foods";
+
+	}
 
 	/*
 	 * @GetMapping("/cartlist") public String showViewCart(Model model,HttpSession
 	 * session) { int userId=(int) session.getAttribute("userid"); List<Cart> cart =
 	 * userDao.viewCart(userId); model.addAttribute("cart", cart); return
 	 * "viewCart.jsp"; }
-	 */    @GetMapping("/cartlist")
-    public String showViewCart(Model model, HttpSession session) {
-        int userId = (int) session.getAttribute("userid");
-        List<Cart> cart = userDao.viewCart(userId);
-        
+	 */ @GetMapping("/cartlist")
+	public String showViewCart(Model model, HttpSession session) {
+		int userId = (int) session.getAttribute("userid");
+		List<Cart> cart = userDao.viewCart(userId);
 
-        int hour = LocalTime.now().getHour();
-        String mealTime;
-        if (hour >= 6 && hour < 12) {
-            mealTime = "Breakfast";
-        } else if (hour >= 12 && hour < 17) {
-            mealTime = "Lunch";
-        } else {
-            mealTime = "Dinner";
-        }
+		int hour = LocalTime.now().getHour();
+		String mealTime;
+		if (hour >= 6 && hour < 12) {
+			mealTime = "Breakfast";
+		} else if (hour >= 12 && hour < 17) {
+			mealTime = "Lunch";
+		} else {
+			mealTime = "Dinner";
+		}
 
-        List<Cart> filteredCartItems = cart.stream()
-                                          .filter(item -> item.getFoodSession().equalsIgnoreCase(mealTime))
-                                          .collect(Collectors.toList());
+		List<Cart> filteredCartItems = cart.stream().filter(item -> item.getFoodSession().equalsIgnoreCase(mealTime))
+				.collect(Collectors.toList());
 
-        model.addAttribute("cart", filteredCartItems); 
-        return "viewCartt.jsp"; 
+		model.addAttribute("cart", filteredCartItems);
+		return "viewCartt.jsp";
+	}
+
+	@PostMapping("/removeCartItem")
+	public String removeCartItem(@RequestParam("foodId") int foodId) {
+		userDao.removeCartItem(foodId);
+		return "redirect:/cartlist";
+	}
+
+	@PostMapping("/updateCartItemQuantity")
+	public String updateCartItemQuantity(@RequestParam("foodId") int foodId, @RequestParam("quantity") int quantity,
+			HttpSession session, Model model) {
+		userDao.updateCartItemQuantity(foodId, quantity);
+		List<Cart> cartItems = (List<Cart>) session.getAttribute("cartItems");
+		for (Cart cartItem : cartItems) {
+			double price = cartItem.getTotalPrice() / cartItem.getQuantity();
+			cartItem.setQuantity(quantity);
+			cartItem.setTotalPrice(price * quantity);
+			System.out.println("total price -" + cartItem.getTotalPrice());
+			System.out.println("quantity -" + cartItem.getQuantity());
+		}
+		int hour = LocalTime.now().getHour();
+		String mealTime;
+		if (hour >= 6 && hour < 12) {
+			mealTime = "Breakfast";
+		} else if (hour >= 12 && hour < 17) {
+			mealTime = "Lunch";
+		} else {
+			mealTime = "Dinner";
+		}
+
+		List<Cart> filteredCartItems = cartItems.stream()
+				.filter(item -> item.getFoodSession().equalsIgnoreCase(mealTime)).collect(Collectors.toList());
+
+		model.addAttribute("cart", filteredCartItems);
+		return "viewCartt.jsp";
+	}
+
+	@PostMapping("/updateFoodPrice")
+	public String updateFoodPrice(@RequestParam("foodId") int foodId, @RequestParam("newPrice") int newPrice) {
+		userDao.updateFoodPrice(foodId, newPrice);
+		return "redirect:/foodList";
+	}
+
+	@PostMapping("/updateFoodQuantity")
+	public String updateFoodQuantity(@RequestParam("foodId") int foodId, @RequestParam("newQuantity") int newQuantity) {
+		userDao.updateFoodQuantity(foodId, newQuantity);
+		return "redirect:/foodList";
+	}
+
+//hoteladmin side orders view method 
+
+	@PostMapping("/orderView")
+	public String orderView(@RequestParam("hotelid") int hotelId, Model model) {
+		System.err.println("------");
+		
+		
+		List<Cart> cartItems = userDao.orderView(hotelId);
+		model.addAttribute("cartItems", cartItems);
+		return "orderview.jsp";
+	}
+
+	@PostMapping("/foodSearch")
+	public String searchFood(@RequestParam("foodName") String foodName, Model model) {
+		System.err.println("<----->");
+		List<Food> foods = userDao.searchFood(foodName);
+		model.addAttribute("foods", foods);
+		return "addToCart.jsp";
+	}
+    @PostMapping("/updateOrders")
+    public String updateOrders(@RequestParam("userId") int userId) {
+    	userDao .updateOrders(userId);
+        return "orders-updated";
     }
 
-		@PostMapping("/removeCartItem")
-		public String removeCartItem(@RequestParam("foodId") int foodId) {
-			userDao.removeCartItem(foodId);
-			return "redirect:/cartlist";
-		}
-	    @PostMapping("/updateCartItemQuantity")
-	    public String updateCartItemQuantity(@RequestParam("foodId") int foodId,
-	                                         @RequestParam("quantity") int quantity,  HttpSession session,Model model) {
-	        userDao.updateCartItemQuantity(foodId, quantity); 
-	        List<Cart> cartItems = (List<Cart>) session.getAttribute("cartItems");
-	        for(Cart cartItem : cartItems) {
-	        	double price = cartItem.getTotalPrice()/cartItem.getQuantity();
-	        	cartItem.setQuantity(quantity);
-	        	cartItem.setTotalPrice(price * quantity);
-	        	System.out.println("total price -" + cartItem.getTotalPrice());
-	        	System.out.println("quantity -" + cartItem.getQuantity());
-	        }
-	        int hour = LocalTime.now().getHour();
-	        String mealTime;
-	        if (hour >= 6 && hour < 12) {
-	            mealTime = "Breakfast";
-	        } else if (hour >= 12 && hour < 17) {
-	            mealTime = "Lunch";
-	        } else {
-	            mealTime = "Dinner";
-	        }
-
-	        List<Cart> filteredCartItems = cartItems.stream()
-	                                          .filter(item -> item.getFoodSession().equalsIgnoreCase(mealTime))
-	                                          .collect(Collectors.toList());
-
-	        model.addAttribute("cart", filteredCartItems); 
-	        return "viewCartt.jsp"; 
-	    }
-
-	    
-@PostMapping("/updateFoodPrice")
-public String updateFoodPrice(@RequestParam("foodId") int foodId, @RequestParam("newPrice") int newPrice) {
-    userDao.updateFoodPrice(foodId, newPrice);
-	return "redirect:/foodList";
 }
-
-@PostMapping("/updateFoodQuantity")
-public String updateFoodQuantity(@RequestParam("foodId") int foodId, @RequestParam("newQuantity") int newQuantity) {
-    userDao.updateFoodQuantity(foodId, newQuantity);
-	return "redirect:/foodList";
-}
-
-
-@PostMapping("/orderView")
-public String orderView(@RequestParam("hotelid") int hotelId, Model model) {
-    System.err.println("------");
-	List<Cart> cartItems = userDao.orderView(hotelId);
-    model.addAttribute("cartItems", cartItems); 
-    return "orderview.jsp"; 
-}
-
-
-}
-
-
-
-
-
-
-

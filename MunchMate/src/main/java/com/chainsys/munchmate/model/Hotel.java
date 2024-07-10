@@ -3,6 +3,8 @@ package com.chainsys.munchmate.model;
 import java.util.Arrays;
 
 public class Hotel {
+	
+	
 	public int hotelId;
 	
 	

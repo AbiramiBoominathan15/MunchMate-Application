@@ -22,7 +22,7 @@ body {
 
 
 	font-family: 'Arial', sans-serif;
-	background: linear-gradient(135deg, #ffcc70, #c5deea);
+	background:#5585b5;
 	color: #333;
 }
 
@@ -32,7 +32,7 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 100px;
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: #9fd3c7;
 	backdrop-filter: blur(10px);
 }
 
@@ -218,7 +218,7 @@ h3 {
 }
 
 .footer {
-	background-color: #333;
+	background-color: #9fd3c7;
 	color: #fff;
 	padding: 20px;
 	text-align: center;
@@ -249,6 +249,8 @@ h3 {
 	<section class="grid">
 		<div class="content">
 			<div class="content-left">
+	
+	
 				<div class="info">
 					<h2>
 						Order Your Best<br>Food anytime
@@ -261,12 +263,12 @@ h3 {
 				<button>Explore Food</button>
 			</div>
 			<div class="content-right">
-				<img src="Picture/home (2).jpg" alt="Food Image">
+				<img src="Picture/indexpic.png" alt="Food Image">
 			</div>
 		</div>
 	</section>
 
-	<section class="category">
+<!-- 	<section class="category">
 		<div class="list-items">
 			<h3>Popular Dishes</h3>
 			<div class="card-list">
@@ -317,7 +319,7 @@ h3 {
 			</div>
 		</div>
 	</section>
-
+ -->
 	<footer class="footer">
 		<p>&copy; 2024 MunchMate. All rights reserved.</p>
 	</footer>

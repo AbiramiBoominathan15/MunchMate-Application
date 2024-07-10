@@ -140,7 +140,7 @@ public class UserImpl implements UserDAO {
 	}
 	public void addToCart(Cart cartItem) {
 		String save = "insert into cart(userid,hotelid,foodid,foodname,quantity,totalprice,mealtime)values(?,?,?,?,?,?,?)";
-		Object[] params = {cartItem.getUserId(),cartItem.getFoodId(),cartItem.getFoodId(),cartItem.getFoodName(),cartItem.getQuantity(),cartItem.getTotalPrice(),cartItem.getFoodSession()};
+		Object[] params = {cartItem.getUserId(),cartItem.getHotelId(),cartItem.getFoodId(),cartItem.getFoodName(),cartItem.getQuantity(),cartItem.getTotalPrice(),cartItem.getFoodSession()};
 		int noOfRows = jdbcTemplate.update(save, params);
 		System.out.println("in DAO -save");
 		
@@ -177,9 +177,9 @@ public class UserImpl implements UserDAO {
 	 * 
 	 * }
 	 */	public List<Food> searchFood(String foodName) {
-	    String query = "SELECT image, name, price FROM food WHERE name LIKE ?";
+	    String query = "SELECT foodid,hotelid,hotelname,image,name,price,quantity,catagories,mealtime FROM food WHERE name LIKE ?";
 	    try {
-	        return jdbcTemplate.query(query, new SearchFoodMapper(), "%" + foodName + "%");
+	        return jdbcTemplate.query(query, new FoodMapper(), "%" + foodName + "%");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return Collections.emptyList(); 
@@ -202,13 +202,42 @@ public class UserImpl implements UserDAO {
 	    @Override
 
 public List<Cart> orderView(int hotelId) {
-	System.out.println("userId - " +hotelId);
+	
+	    	
+	    	System.out.println("userId - " +hotelId);
     String query = "SELECT userid,hotelid,foodid,foodname,quantity,totalprice,mealtime FROM cart WHERE hotelid = ? and active=0";
         return jdbcTemplate.query(query, new PurchaseMapper(), hotelId);
     
 
 }
+	        
+	        public void updateOrders(int userId) {
+	            String insertOrderQuery = "INSERT INTO orders (hotelid, userid, foodname, address, totalamount, paymentmode, orderdelivery) " +
+	                                     "SELECT " +
+	                                     "    c.hotelid, " +
+	                                     "    c.userid, " +
+	                                     "    f.name AS foodname, " +
+	                                     "    u.address, " +
+	                                     "    SUM(c.totalprice) AS totalamount, " +
+	                                     "    'Cash' AS paymentmode, " +
+	                                     "    'Standard delivery' AS orderdelivery " +
+	                                     "FROM " +
+	                                     "    cart c " +
+	                                     "INNER JOIN " +
+	                                     "    user u ON c.userid = u.userid " +
+	                                     "INNER JOIN " +
+	                                     "    food f ON c.foodid = f.foodid " +
+	                                     "WHERE " +
+	                                     "    c.active = 0 " +
+	                                     "    AND u.userid = ? " +
+	                                     "GROUP BY " +
+	                                     "    c.hotelid, c.userid, f.name, u.address";
+	            
+	            jdbcTemplate.update(insertOrderQuery, userId);
+	        }
+	        
+	    }
 
-}
+
 
 

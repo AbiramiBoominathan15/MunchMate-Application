@@ -13,6 +13,8 @@ import com.chainsys.munchmate.model.Food;
 
 
 public class FoodMapper implements RowMapper<Food> {
+	
+	
 	public Food mapRow(ResultSet rs, int rowNum) throws SQLException {
         Food food = new Food();
         food.setFoodId(rs.getInt("foodid"));

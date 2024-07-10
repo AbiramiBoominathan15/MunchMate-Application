@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
         .nav {
-            background-color:#AA336A; 
-            padding: 20px 100px;
+            background-color:#9fd3c7; 
+            padding: 15px 80px;
             backdrop-filter: blur(10px);     
             top: 0;
             left: 0;
@@ -27,7 +27,7 @@
             align-items: center;
         }
         .nav .logo img {
-            width: 60px;
+            width: 85px;
             height: auto;
             margin-right: 10px;
         }
@@ -102,16 +102,30 @@
             text-align: center;
             margin-top: 20px; 
         }
+        .logo{
+        display:inline-block;
+        vertical-align:middle;
         
+        
+        }
+        .title{
+                
+        display:inline-block;
+        vertical-align:middle;
+        }
+        .menuu{
+        width:60%;
+        }
+        }
     </style>
 </head>
 <body>
     <div class="nav">
         <div class="logo">
             <img src="Picture/logomuchmate1.png" alt="Logo">
-            <h1>Munch<b>Mate</b></h1>
+            <h1 class="title">Munch<b>Mate</b></h1>
         </div>
-        <ul>
+        <ul class="menuu">
             <li><a class="home" href="index.jsp">Home</a></li>
             <li><a href="aboutPage.jsp">AboutUs</a></li>
             <li><a href="contactPage.jsp">Contact</a></li>

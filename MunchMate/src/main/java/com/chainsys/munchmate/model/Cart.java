@@ -25,6 +25,8 @@ public class Cart {
 		return foodName;
 	}
 	public void setFoodName(String foodName) {
+	
+		
 		this.foodName = foodName;
 	}
 	public byte[] getFoodImage() {
