@@ -26,6 +26,8 @@ public class HotelMapper implements RowMapper<Hotel> {
 		String hotelLocation = rs.getString(3);
 
 		
+	
+		
 		
 		
 		String hotelPhoneNumber = rs.getString(5);

@@ -2,6 +2,7 @@ package com.chainsys.munchmate.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ import jakarta.servlet.http.HttpSession;
 
 public class UserController {
 	@Autowired
+
 	UserDAO userDao;
 
 	@RequestMapping("/home")
@@ -37,7 +39,7 @@ public class UserController {
 	@PostMapping("/register")
 	public String saveUser(@RequestParam("name") String name, @RequestParam("password") String password,
 			@RequestParam("phonenumber") String phonenumber, @RequestParam("city") String city,
-			@RequestParam("email") String email) throws ClassNotFoundException, SQLException {
+			@RequestParam("email") String email) {
 		User user = new User();
 		user.setName(name);
 		user.setPassword(password);
@@ -48,9 +50,27 @@ public class UserController {
 				user.getName() + user.getPassword() + user.getPhoneNumber() + user.getCity() + user.getMailId());
 		userDao.insertRegistration(user);
 		return "loginPage.jsp";
-		/*
-		 * return "redirect:/listofusers";
-		 */
+	}
+
+	@PostMapping("/updateProfile")
+	public String updateProfile(@RequestParam("phonenumber") String phoneNumber, @RequestParam("city") String city,
+			@RequestParam("email") String email) {
+		User user = new User();
+		user.setPhoneNumber(phoneNumber);
+		user.setCity(city);
+		user.setMailId(email);
+
+		userDao.updateUser(user);
+
+		return "update.jsp";
+	}
+
+	@PostMapping("/profile")
+	public String profile() {
+		userDao.userProfile();
+
+		return null;
+
 	}
 
 	@PostMapping("/hotelregister")
@@ -74,9 +94,6 @@ public class UserController {
 					+ hotel.getHotelLocation() + hotel.getHotelPassword() + hotel.getHotelEmail());
 			userDao.hotelRegistration(hotel);
 
-			/*
-			 * return "redirect:/hotels";
-			 */
 			return "redirect:loginPage.jsp";
 		} else {
 			return "redirect:/error";
@@ -107,21 +124,6 @@ public class UserController {
 		return "hotelDetails.jsp";
 	}
 
-	/*
-	 * @PostMapping("/login") public String login(@RequestParam("email") String
-	 * email, @RequestParam("password") String password, HttpSession session) {
-	 * 
-	 * if (email.equals("abiramiboominathan15@gmail.com") &&
-	 * password.equals("abirami@15")) { session.setAttribute("email", email); return
-	 * "redirect:/adminDashboard.jsp"; } else if (userDao.login(email, password)) {
-	 * session.setAttribute("email", email);
-	 * System.out.println(userDao.getUserID(email)); session.setAttribute("userid",
-	 * userDao.getUserID(email));
-	 * 
-	 * return "redirect:/menuDisplay.jsp"; } else { session.setAttribute("message",
-	 * "Invalid credentials. Please try again."); return "redirect:/loginPage.jsp";
-	 * } } 134 157
-	 */
 	@PostMapping("/login")
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password,
 			HttpSession session) {
@@ -140,10 +142,6 @@ public class UserController {
 				session.setAttribute("email", email);
 				session.setAttribute("hotelId", hotel.getHotelId());
 				session.setAttribute("hotelName", hotel.getHotelName());
-
-				/*
-				 * return "redirect:/hotelDashboard.jsp";
-				 */
 				return "redirect:hotelAdminDashboard.jsp";
 			} else {
 				session.setAttribute("message", "Your hotel is not yet approved.");
@@ -168,7 +166,7 @@ public class UserController {
 			@RequestParam("foodName") String foodName, @RequestParam("foodCategory") String foodCategory,
 			@RequestParam("foodSession") String foodSession, @RequestParam("foodPrice") int foodPrice,
 			@RequestParam("foodQuantity") int foodQuantity, @RequestParam("image") MultipartFile imageFile)
-			throws ClassNotFoundException, SQLException, IOException {
+			throws IOException {
 		System.out.println("in register handle");
 
 		if (!imageFile.isEmpty()) {
@@ -202,9 +200,7 @@ public class UserController {
 
 		return "menu.jsp";
 
-		/*
-		 * return "food";
-		 */ }
+	}
 
 	@GetMapping("/food")
 	public String showFoodList(Model model) {
@@ -236,20 +232,19 @@ public class UserController {
 			@RequestParam("hotelid") int hotelid,
 
 			@RequestParam("foodname") String foodname, @RequestParam("quantity") int quantity,
-			@RequestParam("price") int price,
-			/*
-			 * @RequestParam("base64Image") MultipartFile imageFile,
-			 */
-
-			@RequestParam("mealTime") String foodSession, Model model, HttpSession session) throws IOException {
-		/*
-		 * if (!imageFile.isEmpty()) { byte[] imageBytes = imageFile.getBytes();
-		 */
+			@RequestParam("price") int price, @RequestParam("mealTime") String foodSession, Model model,
+			HttpSession session) {
 		System.err.println("------>");
+		session.setAttribute("foodId", foodid);
+		session.setAttribute("quantity", quantity);
+
 		double totalPrice = price * quantity;
 		Food food = userDao.getBase64FoodImage(foodid);
 
+		LocalDate currentDate = LocalDate.now();
+		System.out.println("---->" + currentDate);
 		Cart cartItem = new Cart();
+		cartItem.setCurrentdate(currentDate);
 		cartItem.setUserId(userId);
 		cartItem.setFoodId(foodid);
 		cartItem.setHotelId(hotelid);
@@ -263,17 +258,27 @@ public class UserController {
 		cartItem.setFoodImage(food.getFoodImage());
 
 		userDao.addToCart(cartItem);
+		/*
+		 * userDao.updateQuantities(foodid, quantity);
+		 */
 
 		return "/foods";
 
 	}
 
-	/*
-	 * @GetMapping("/cartlist") public String showViewCart(Model model,HttpSession
-	 * session) { int userId=(int) session.getAttribute("userid"); List<Cart> cart =
-	 * userDao.viewCart(userId); model.addAttribute("cart", cart); return
-	 * "viewCart.jsp"; }
-	 */ @GetMapping("/cartlist")
+	@PostMapping("/payment")
+	public String payment(@RequestParam("userid") int userId, HttpSession session) {
+		String paymentStatus = "paid";
+		int id =(int)session.getAttribute("foodId");
+		int quantity =(int)session.getAttribute("quantity");
+	
+		userDao.paymentUpdate(userId, paymentStatus);
+		userDao.foodQuantityDecrease(id,quantity);
+
+		return "paymentSucess.jsp";
+	}
+
+	@GetMapping("/cartlist")
 	public String showViewCart(Model model, HttpSession session) {
 		int userId = (int) session.getAttribute("userid");
 		List<Cart> cart = userDao.viewCart(userId);
@@ -305,6 +310,11 @@ public class UserController {
 	public String updateCartItemQuantity(@RequestParam("foodId") int foodId, @RequestParam("quantity") int quantity,
 			HttpSession session, Model model) {
 		userDao.updateCartItemQuantity(foodId, quantity);
+		System.out.println(foodId);
+		session.setAttribute("foodId", foodId);
+		session.setAttribute("quantity", quantity);
+
+		System.out.println("-----------------");
 		List<Cart> cartItems = (List<Cart>) session.getAttribute("cartItems");
 		for (Cart cartItem : cartItems) {
 			double price = cartItem.getTotalPrice() / cartItem.getQuantity();
@@ -342,15 +352,19 @@ public class UserController {
 		return "redirect:/foodList";
 	}
 
-//hoteladmin side orders view method 
-
 	@PostMapping("/orderView")
 	public String orderView(@RequestParam("hotelid") int hotelId, Model model) {
-		System.err.println("------");
-		
-		
 		List<Cart> cartItems = userDao.orderView(hotelId);
+
+		double totalAmount = 0.0;
+		for (Cart cartItem : cartItems) {
+			totalAmount += cartItem.getTotalPrice();
+		}
+
 		model.addAttribute("cartItems", cartItems);
+		model.addAttribute("totalAmount", totalAmount);
+
+		/* return "orderview.jsp"; */
 		return "orderview.jsp";
 	}
 
@@ -361,10 +375,49 @@ public class UserController {
 		model.addAttribute("foods", foods);
 		return "addToCart.jsp";
 	}
-    @PostMapping("/updateOrders")
-    public String updateOrders(@RequestParam("userId") int userId) {
-    	userDao .updateOrders(userId);
-        return "orders-updated";
+
+	@PostMapping("/updateOrders")
+	public String updateOrders(@RequestParam("userId") int userId) {
+		userDao.updateOrders(userId);
+		return "orders-updated";
+	}
+
+	@PostMapping("/deleteFood")
+	public String deleteFood(@RequestParam("foodId") int foodId) {
+		userDao.deleteFood(foodId);
+		return "redirect:/foodList";
+	}
+
+	@GetMapping("/foodSearchh")
+	public String searchFoodMenu(@RequestParam("foodName") String foodName, Model model) {
+		List<Food> foods = userDao.searchFoodByName(foodName);
+		model.addAttribute("foodList", foods);
+		return "/menu.jsp";
+	}
+
+	@PostMapping("/updateDeliveryStatus")
+	
+	
+	
+	public String updateStatus(@RequestParam("hotelid") int hotelId, @RequestParam("delivered") String delivered,@RequestParam("foodName") String foodName) {
+		Cart cartItem = new Cart();
+		cartItem.setHotelId(hotelId);
+		cartItem.setDeliveryStatus(delivered);
+		cartItem.setFoodName(foodName);
+		System.out.println("<--->" + cartItem.getHotelId());
+		System.err.println("<--->" + cartItem.getDeliveryStatus());
+		System.out.println(cartItem.getFoodName());
+		userDao.updateDeliveryStatus(cartItem);
+		
+
+		return "hotelAdminDashboard.jsp";
+	}
+    @GetMapping("/deliveredOrders")
+    public String showDeliveredOrders(Model model) {
+        List<Cart> deliveredOrders = userDao.getDeliveredOrders();
+        System.out.println(deliveredOrders);
+        model.addAttribute("deliveredOrders", deliveredOrders);
+        return "deliveredOrders.jsp"; 
     }
 
 }

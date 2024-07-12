@@ -12,15 +12,13 @@ import com.chainsys.munchmate.model.Food;
 
 
 
-public class FoodMapper implements RowMapper<Food> {
+public class FoodSearchAdmin implements RowMapper<Food> {
+	
+	
 	
 	
 	public Food mapRow(ResultSet rs, int rowNum) throws SQLException {
-       
-		
-		Food food = new Food();
-        food.setFoodId(rs.getInt("foodid"));
-        food.setHotelId(rs.getInt("hotelid"));
+        Food food = new Food();
        
         
         food.setHotelName(rs.getString("hotelname"));
@@ -29,7 +27,7 @@ public class FoodMapper implements RowMapper<Food> {
         food.setFoodQuantity(rs.getInt("quantity"));
         food.setFoodCategories(rs.getString("catagories"));
         food.setFoodSession(rs.getString("mealtime"));
-        System.out.println("4321 " + food.getFoodQuantity());
+
         Blob blob = rs.getBlob("image");
         if (blob != null) {
             int blobLength = (int) blob.length();

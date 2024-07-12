@@ -6,6 +6,11 @@ import java.util.Arrays;
 
 
 
+
+
+
+
+
 public class Food {
 	public int foodId;
 	public int hotelId;

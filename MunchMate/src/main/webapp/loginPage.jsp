@@ -176,6 +176,8 @@ input[type="password"] {
 			</div>
 			<ul>
 				<li><a class="home" href="index.jsp">Home</a></li>
+				
+				
 				<li><a href="aboutPage.jsp">AboutUs</a></li>
 				<li><a href="contactPage.jsp">Contact</a></li>
 	

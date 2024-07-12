@@ -13,6 +13,8 @@
 }
 
 body {
+
+
     font-family: Arial, sans-serif;
     background-color: #5585b5;
 /*    margin: 0 100px;
@@ -160,6 +162,30 @@ body {
             background-color: #ff511c;
             color: white;
         }
+        
+        
+        
+            .order {
+	border: none;
+	background-color: #9fd3c7;
+	font-size: 17px;
+	line-height: 0;
+}
+
+.purchase {
+	border: none;
+	background-color: #9fd3c7;
+	font-size: 17px;
+}
+
+button.order:hover {
+	color: #ff511c;
+}
+
+input.purchase:hover {
+	color: #ff511c;
+}
+        
 
 </style>
 </head>
@@ -175,6 +201,25 @@ body {
        
             <ul>
                 <li><a class="home" href="index.jsp">Home</a></li>
+                               <li>
+<form action="hotelmenu.jsp" method="post">
+					<button  class="order"type="submit">Orders</button>
+					</a><br>
+					<br>
+				</form>
+				</li>
+			
+			
+						<li><a href="/foodList">Menu</a></li>
+										<form action="/orderView" method="post">
+					<input type="hidden" id="hotelid" name="hotelid"
+						value="<%=session.getAttribute("hotelId")%>" required>
+					<li><input type="submit" class="purchase" href=""
+						value="Purchase"></li>
+				</form>
+						
+               
+                
                 <li><a href="aboutPage.jsp">About Us</a></li>
                 <li><a href="contactPage.jsp">Contact</a></li>
             </ul>

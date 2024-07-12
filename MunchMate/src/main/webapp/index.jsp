@@ -249,6 +249,8 @@ h3 {
 	<section class="grid">
 		<div class="content">
 			<div class="content-left">
+
+
 	
 	
 				<div class="info">

@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 public class Hotel {
 	
+
+	
+	
+	
 	
 	public int hotelId;
 	

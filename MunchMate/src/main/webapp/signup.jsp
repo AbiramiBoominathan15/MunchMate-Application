@@ -145,6 +145,8 @@
 
     <form id="businessRegistrationForm" action="/hotelregister" method="post" style="display: none; "enctype="multipart/form-data">
         
+        
+        
    
    
         

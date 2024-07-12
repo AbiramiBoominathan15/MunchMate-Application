@@ -1,9 +1,9 @@
 
 package com.chainsys.munchmate.mapper;
 
-import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,32 +15,42 @@ public class PurchaseMapper implements RowMapper<Cart> {
 		Cart cartItem = new Cart();
 
 		int userId = rs.getInt(1);
-		int hotelid=rs.getInt(2);
+	int hotelid=rs.getInt(2);
 		
 		
-		int foodid= rs.getInt(3);
-		String foodname = rs.getString(4);
-		/*
-		 * Blob blob = rs.getBlob("image"); if (blob != null) { int blobLength = (int)
-		 * blob.length(); byte[] blobAsBytes = blob.getBytes(1, blobLength);
-		 * cartItem.setFoodImage(blobAsBytes); }
-		 */
+	int foodid= rs.getInt(3);
+	String foodname = rs.getString(4);
 	
-		
+	
 		int quantity = rs.getInt(5);
 		
 		
-		int price = rs.getInt(6);
+		
+
+	int price = rs.getInt(6);
 		String foodSession = rs.getString(7);
-		cartItem.setUserId(userId);
+		LocalDate currentdate= LocalDate.parse(rs.getString(8)) ;
+		String paymentStatus=rs.getString(9);
+		String deliveryStatus= rs.getString(10);
+		
+	cartItem.setUserId(userId);
 		cartItem.setHotelId(hotelid);
 		cartItem.setFoodId(foodid);
 		cartItem.setFoodName(foodname);
 		cartItem.setQuantity(quantity);
 		cartItem.setTotalPrice(price);
 		cartItem.setFoodSession(foodSession);
+		cartItem.setCurrentdate(currentdate);
+		cartItem.setPaymentStatus(paymentStatus);
+		cartItem.setDeliveryStatus(deliveryStatus);
+		System.out.println(		deliveryStatus);
+
+		
+
 
 		return cartItem;
-	}
+}
 
 }
+
+

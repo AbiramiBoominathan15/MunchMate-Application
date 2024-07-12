@@ -59,6 +59,11 @@ public class Order {
 	
 	
 	public void setOrderDelivery(String orderDelivery) {
+		
+		
+		
+		
+		
 		this.orderDelivery = orderDelivery;
 	}
 	@Override

@@ -226,6 +226,8 @@ p {
             background-color: #ff511c;
             color: white;
         }
+       
+       
         .footer {
         background-color: #9fd3c7;
         padding: 20px;
@@ -240,6 +242,8 @@ p {
         <div class="nav">
             <div class="logo">
                 <img src="Picture/logomuchmate1.png" alt="Logo">
+         
+         
                 <h1>Munch<b style="color:#ff511c">Mate</b></h1>
             </div>
             <ul>

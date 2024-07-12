@@ -82,7 +82,7 @@
         }
 
         .nav .logo img {
-            width: 60px; 
+            width: 96px; 
             height: auto;
             margin-right: 10px;
         }
@@ -97,6 +97,8 @@
             display: flex;
             list-style: none;
         }
+        
+        
 
         .nav ul li {
             margin-right: 30px;
@@ -223,6 +225,28 @@ body {
 .contact-form button:hover {
     background-color: #e03e0c;
 }
+            .order {
+	border: none;
+	background-color: #9fd3c7;
+	font-size: 17px;
+	line-height: 0;
+}
+
+.purchase {
+	border: none;
+	background-color: #9fd3c7;
+	font-size: 17px;
+}
+
+button.order:hover {
+	color: #ff511c;
+}
+
+input.purchase:hover {
+	color: #ff511c;
+}
+        
+
 
 
 </style>
@@ -235,6 +259,26 @@ body {
             </div>
             <ul>
                 <li><a class="home" href="index.jsp">Home</a></li>
+                                               <li>
+<form action="hotelmenu.jsp" method="post">
+					<button  class="order"type="submit">Orders</button>
+					</a><br>
+					<br>
+				</form>
+				</li>
+			
+			
+						<li><a href="/foodList">Menu</a></li>
+										<form action="/orderView" method="post">
+					<input type="hidden" id="hotelid" name="hotelid"
+						value="<%=session.getAttribute("hotelId")%>" required>
+					<li><input type="submit" class="purchase" href=""
+						value="Purchase"></li>
+				</form>
+						
+               
+                
+                
                 <li><a href="aboutPage.jsp">About Us</a></li>
                 <li><a href="contactPage.jsp">Contact</a></li>
             </ul>
@@ -250,6 +294,8 @@ body {
                 <p><strong>Phone:</strong> +123 456 7890</p>
                 <p><strong>Email:</strong> info@hungerbox.com</p>
             </div>
+      
+      
       
       
             <form action="#" method="post" class="contact-form">

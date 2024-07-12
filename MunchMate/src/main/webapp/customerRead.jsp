@@ -43,6 +43,8 @@
            } 
            else {
                out.println("<tr><td colspan='6'>No users found</td></tr>");
+    
+    
        
        
            }
@@ -225,6 +227,8 @@
                         <tr>
                             <td><%= user.getUserId() %></td>
                             <td><%= user.getName() %></td>
+         
+         
                             <td><%= user.getPhoneNumber() %></td>
                             <td><%= user.getCity() %></td>
                             <td><%= user.getMailId() %></td>

@@ -353,6 +353,8 @@
             <a class="signin" href="signup">Sign Up</a>
      
      
+     
+     
         </div>
     </section>
 
@@ -377,11 +379,13 @@
                     for (Hotel hotel : hotels) {
                 %>
                 <tr>
+              
+              
                     <td><%= hotel.getHotelName() %></td>
                     <td><%= hotel.getHotelLocation() %></td>
                     <td><%= hotel.getHotelPhoneNumber() %></td>
                     <td><%= hotel.getHotelEmail() %></td>
-                    <td><img src="data:image/jpg;base64,<%= new String(Base64.getEncoder().encode(hotel.getHotelImage())) %>" width="100px" /></td>
+                    <td><img src="data:image/jpg;base64,<%= new String(Base64.getEncoder().encode(hotel.getHotelImage())) %>" width="100px" alt="icon"/></td>
                     <td>
                         <form action="/updateApproval" method="post">
                             <input type="hidden" name="hotelId" value="<%= hotel.getHotelId() %>">

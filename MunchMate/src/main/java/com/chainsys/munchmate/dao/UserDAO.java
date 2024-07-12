@@ -59,7 +59,25 @@ public interface UserDAO {
     public void updateFoodQuantity(int foodId, int newQuantity);
 
     public List<Cart> orderView(int hotelId);
+    
+    
+    
     public void updateOrders(int userId) ;
+    
+    public void paymentUpdate(int userId, String status);
+    
+    public void deleteFood(int foodId);
+	 public List<Food> getFoodQuantity(int foodId) ;
 
+	  public List<Food> searchFoodByName(String foodName);
+		public void updateUser(User user) ;
+		public List<User> userProfile();
+		public void updateFoodQuantityDecrease(int foodId, int quantity) ;
+
+		
+		public void foodQuantityDecrease( int foodId , int addedQuantity);
+
+		public void updateDeliveryStatus(Cart cartItem);
+		public List<Cart> getDeliveredOrders();
 
 }

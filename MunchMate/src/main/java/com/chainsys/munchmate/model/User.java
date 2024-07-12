@@ -1,6 +1,8 @@
 package com.chainsys.munchmate.model;
 
 public class User {
+	
+	
 	public int userId;
 
 	

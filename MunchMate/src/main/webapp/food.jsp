@@ -5,6 +5,8 @@
 
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,11 +77,13 @@
 <%-- <%--  --%>                   
  <td><%= food.getHotelName() %></td>
                     <td><%= food.getFoodName() %></td>
+                 
+                 
                     <td><%= food.getFoodPrice() %></td>
                     <td><%= food.getFoodQuantity() %></td>
                     <td><%= food.getFoodCategories() %></td>
                     <td><%= food.getFoodSession() %></td>
-                    <td><img src="data:image/jpg;base64,<%= new String(Base64.getEncoder().encode(food.getFoodImage())) %>" width="100px" /></td>
+                    <td><img src="data:image/jpg;base64,<%= new String(Base64.getEncoder().encode(food.getFoodImage())) %>" width="100px" alt="icon"/></td>
                 </tr>
             <% 
                    }

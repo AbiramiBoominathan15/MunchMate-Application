@@ -12,6 +12,8 @@ import com.chainsys.munchmate.model.Food;
 
 
 
+
+
 public class FoodImageMapper implements RowMapper<Food> {
 	public Food mapRow(ResultSet rs, int rowNum) throws SQLException {
       
